@@ -6,15 +6,15 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#070b16">
   <meta name="author" content="muxintian">
-  <meta name="description" content="muxintian（Bilibili：Mwaitwait），25 岁，研三。研究具身智能与计算机视觉，正在找工作，欢迎内推。">
+  <meta name="description" content="muxintian（Bilibili：Mwaitwait），25 岁，研三研究生。研究具身智能与计算机视觉。" data-en-content="muxintian (Bilibili: Mwaitwait), 25, a third-year graduate student working on embodied AI and computer vision.">
   <meta property="og:title" content="muxintian · 具身智能与计算机视觉">
-  <meta property="og:description" content="研三，研究具身智能与计算机视觉。正在找工作，欢迎内推。">
+  <meta property="og:description" content="研三研究生，研究具身智能与计算机视觉。" data-en-content="A third-year graduate student working on embodied AI and computer vision.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:url" content="https://mwaiting002.github.io/">
   <meta property="og:image" content="https://mwaiting002.github.io/assets/hero.png">
   <meta name="twitter:card" content="summary_large_image">
-  <title>muxintian · 具身智能与计算机视觉</title>
+  <title data-en="muxintian · Embodied AI and computer vision">muxintian · 具身智能与计算机视觉</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="assets/hero.png">
   <link rel="preload" as="image" href="assets/avatar-styled.png">
@@ -36,7 +36,7 @@
   </script>
 </head>
 <body id="top">
-  <a class="skip" href="#main">跳到主要内容</a>
+  <a class="skip" href="#main" data-en="Skip to content">跳到主要内容</a>
   <header class="topbar">
     <div class="wrap bar">
       <a class="brand" href="#top">
@@ -48,13 +48,21 @@
         </svg>
         muxintian
       </a>
-      <nav id="site-nav" aria-label="页内导航">
-        <a href="#about">关于</a>
-        <a href="#skills">技能</a>
-        <a href="#work">作品</a>
-        <a href="#timeline">时间线</a>
-        <a href="#contact">联系</a>
+      <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
+        <a href="#about" data-en="About">关于</a>
+        <a href="#awards" data-en="Awards">获奖</a>
+        <a href="#skills" data-en="Skills">技能</a>
+        <a href="#work" data-en="Videos">作品</a>
+        <a href="#lab" data-en="Lab">实验室</a>
+        <a href="#timeline" data-en="Timeline">时间线</a>
+        <a href="#contact" data-en="Contact">联系</a>
       </nav>
+      <div class="tools">
+        <button class="tool-btn" id="lang-toggle" type="button">EN</button>
+        <button class="tool-btn" id="weather-toggle" type="button" aria-label="切换天气">☀</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-label="切换日间">☀</button>
+        <button class="tool-btn" id="term-toggle" type="button" aria-label="打开终端" data-en-aria="Open terminal">&gt;_</button>
+      </div>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
         <span class="sr-only">打开菜单</span>
         <span class="burger" aria-hidden="true"></span>
@@ -72,22 +80,24 @@
       <div class="orb orb-b" aria-hidden="true"></div>
       <div class="wrap hero-grid">
         <div class="avatar-wrap">
-          <img class="avatar" src="assets/avatar-styled.png" width="800" height="800" alt="muxintian 的头像：侧影举起手机拍摄烟花，外圈是彩色光环" fetchpriority="high">
-          <span class="sticker">求内推</span>
+          <button class="avatar-btn" id="avatar-btn" type="button" aria-label="播放一个小动画" data-en-aria="Play a little animation">
+            <img class="avatar" src="assets/avatar-styled.png" width="800" height="800" alt="muxintian 的头像：侧影举起手机拍摄烟花，外圈是彩色光环" data-en-alt="muxintian's portrait: a silhouette photographing fireworks, with a colored ring" fetchpriority="high">
+          </button>
+          <span class="sticker" data-en="boop">点一下</span>
         </div>
         <div class="hero-copy">
-          <p class="kicker"><span lang="en">Embodied AI</span> · 具身智能 · <span lang="en">Computer Vision</span></p>
+          <p class="kicker" data-en="Embodied AI · Computer Vision">Embodied AI · 具身智能 · Computer Vision</p>
           <h1 id="hero-title">muxintian</h1>
-          <p class="nick">Bilibili 昵称 Mwaitwait · 25 岁 · 研三</p>
+          <p class="nick" data-en="Bilibili · Mwaitwait · age 25 · graduate student">Bilibili 昵称 Mwaitwait · 25 岁 · 研三</p>
           <p class="tagline">
-            <span class="sr-only">研究具身智能与计算机视觉。研三找工作中，欢迎内推。</span>
+            <span class="sr-only" data-en="Researching embodied AI and computer vision.">研究具身智能与计算机视觉。</span>
             <span class="prompt" aria-hidden="true">&gt;</span>
             <span id="tagline" aria-hidden="true">研究具身智能与计算机视觉</span>
             <span class="caret" aria-hidden="true"></span>
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#work">看视频作品</a>
-            <a class="btn btn-ghost" href="#contact">联系 / 内推</a>
+            <a class="btn btn-primary" href="#work" data-en="Watch the videos">看视频作品</a>
+            <a class="btn btn-ghost" href="#contact" data-en="Contact">联系</a>
           </div>
         </div>
       </div>
@@ -99,78 +109,65 @@
           <span class="sec-no" aria-hidden="true">01</span>
           <div>
             <p class="eyebrow" lang="en">About</p>
-            <h2>关于我</h2>
+            <h2 data-en="About me">关于我</h2>
           </div>
         </div>
         <div class="about-grid">
           <div>
-            <p>我是 muxintian，25 岁，研三研究生。研究兴趣是具身智能（embodied AI）和计算机视觉：让机器人看清物体的姿态，再规划动作，完成操作和导航。</p>
-            <p>实验和项目记在 Bilibili，昵称 <a href="https://space.bilibili.com/698231403">Mwaitwait</a>。这里的 12 条视频从 2025 年 10 月排到 2026 年 9 月：ROS 2 课程和实习 vlog，6D 姿态估计，MoveIt 2 规划，OpenClaw 把语言接到机械臂，Isaac Sim 里的 Nav2，以及双臂上下料、搭积木和移动抓取送货。</p>
-            <p>目前正在找工作，欢迎内推和交流。</p>
+            <p data-en="I'm muxintian, 25, a third-year graduate student. I work on embodied AI and computer vision: seeing an object's pose, then planning motion for manipulation and navigation.">我是 muxintian，25 岁，研三研究生。研究兴趣是具身智能（embodied AI）和计算机视觉：让机器人看清物体的姿态，再规划动作，完成操作和导航。</p>
+            <p data-en-html='The experiments are on Bilibili under <a href="https://space.bilibili.com/698231403">Mwaitwait</a>. These 12 videos run from October 2025 to September 2026: ROS 2 courses and an internship vlog, 6D pose estimation, MoveIt 2 planning, OpenClaw connecting language to an arm, Nav2 in Isaac Sim, plus dual-arm loading, block stacking, and mobile pick-and-deliver.'>实验和项目记在 Bilibili，昵称 <a href="https://space.bilibili.com/698231403">Mwaitwait</a>。这里的 12 条视频从 2025 年 10 月排到 2026 年 9 月：ROS 2 课程和实习 vlog，6D 姿态估计，MoveIt 2 规划，OpenClaw 把语言接到机械臂，Isaac Sim 里的 Nav2，以及双臂上下料、搭积木和移动抓取送货。</p>
           </div>
           <ul class="stats">
-            <li><strong>25</strong><span>岁</span></li>
-            <li><strong>研三</strong><span>正在找工作</span></li>
-            <li><strong>270</strong><span>Bilibili 关注者</span></li>
-            <li><strong>12</strong><span>条公开视频</span></li>
+            <li><strong>25</strong><span data-en="years old">岁</span></li>
+            <li><strong data-en="Year 3">研三</strong><span data-en="graduate student">研究生</span></li>
+            <li><strong>270</strong><span data-en="Bilibili followers">Bilibili 关注者</span></li>
+            <li><strong>12</strong><span data-en="public videos">条公开视频</span></li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="open-title">
+    <section id="awards">
       <div class="wrap">
-        <div class="callout">
-          <svg class="mascot" viewBox="0 0 120 120" aria-hidden="true">
-            <rect x="34" y="28" width="52" height="40" rx="14" fill="#7aefff"/>
-            <circle cx="50" cy="46" r="5" fill="#12182b"/>
-            <circle cx="70" cy="46" r="5" fill="#12182b"/>
-            <rect x="56" y="14" width="8" height="16" rx="3" fill="#ffe08a"/>
-            <circle cx="60" cy="12" r="6" fill="#ff8ab3"/>
-            <rect x="28" y="72" width="64" height="28" rx="12" fill="#ffb15a"/>
-            <circle cx="46" cy="100" r="7" fill="#f6f8ff"/>
-            <circle cx="74" cy="100" r="7" fill="#f6f8ff"/>
-            <path d="M18 78h12M90 78h12" stroke="#c4b5fd" stroke-width="6" stroke-linecap="round"/>
-          </svg>
+        <div class="section-head">
+          <span class="sec-no" aria-hidden="true">02</span>
           <div>
-            <p class="eyebrow" lang="en">Open to opportunities</p>
-            <h2 id="open-title">研三找工作中</h2>
-            <blockquote class="quote">研三找工作中，求大佬们内推<span class="kaomoji">٩( 'ω' )و</span></blockquote>
-            <p class="lede">方向是具身智能、机器人与计算机视觉。邮件、Bilibili 或 GitHub 都可以找到我。</p>
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="mailto:18131537762@163.com">发邮件</a>
-              <a class="btn btn-ghost" href="https://github.com/mwaiting002">GitHub</a>
-              <a class="btn btn-ghost" href="https://space.bilibili.com/698231403">Bilibili</a>
-            </div>
+            <p class="eyebrow" lang="en">Awards</p>
+            <h2 data-en="Honors">获奖</h2>
           </div>
         </div>
+        <article class="award">
+          <p class="award-prize" data-en="National First Prize">国家一等奖</p>
+          <h3 data-en="China Robot and Artificial Intelligence Competition">中国机器人及人工智能大赛</h3>
+          <p data-en="中国机器人及人工智能大赛">China Robot and Artificial Intelligence Competition</p>
+        </article>
       </div>
     </section>
 
     <section id="skills">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">02</span>
+          <span class="sec-no" aria-hidden="true">03</span>
           <div>
             <p class="eyebrow" lang="en">Stack</p>
-            <h2>视频里出现过的技术</h2>
+            <h2 data-en="Techniques that show up in the videos">视频里出现过的技术</h2>
           </div>
         </div>
-        <p class="lede">这些标签都来自公开视频的标题和简介。点一个，下面的作品会按它筛选。</p>
-        <ul class="chips" aria-label="按技术筛选视频">
-          <li><button type="button" class="sm" data-filter="all" aria-pressed="true">全部</button></li>
+        <p class="lede" data-en="These tags come from the public titles and descriptions. Click one to filter the videos below.">这些标签都来自公开视频的标题和简介。点一个，下面的作品会按它筛选。</p>
+        <ul class="chips" aria-label="按技术筛选视频" data-en-aria="Filter videos by technique">
+          <li><button type="button" class="sm" data-filter="all" aria-pressed="true" data-en="All">全部</button></li>
           <li><button type="button" class="lg" data-filter="ros2" style="--c:#7aefff">ROS 2 Humble</button></li>
           <li><button type="button" class="lg" data-filter="nav2" style="--c:#ffb15a">Nav2</button></li>
           <li><button type="button" data-filter="moveit" style="--c:#c4b5fd">MoveIt 2</button></li>
           <li><button type="button" data-filter="isaac" style="--c:#86efac">Isaac Sim</button></li>
-          <li><button type="button" class="lg" data-filter="pose" style="--c:#ff8ab3">6D 姿态估计</button></li>
+          <li><button type="button" class="lg" data-filter="pose" style="--c:#ff8ab3" data-en="6D pose">6D 姿态估计</button></li>
           <li><button type="button" data-filter="foundationpose" style="--c:#ffe08a">FoundationPose</button></li>
           <li><button type="button" class="sm" data-filter="realsense" style="--c:#7aefff">RealSense D415</button></li>
           <li><button type="button" class="sm" data-filter="orbbec" style="--c:#ffb15a">Orbbec Gemini 335</button></li>
-          <li><button type="button" class="lg" data-filter="dual" style="--c:#ff8ab3">双臂操作</button></li>
-          <li><button type="button" data-filter="mobile" style="--c:#86efac">移动操作</button></li>
+          <li><button type="button" class="lg" data-filter="dual" style="--c:#ff8ab3" data-en="Dual-arm">双臂操作</button></li>
+          <li><button type="button" data-filter="mobile" style="--c:#86efac" data-en="Mobile manipulation">移动操作</button></li>
           <li><button type="button" data-filter="openclaw" style="--c:#c4b5fd">OpenClaw</button></li>
-          <li><button type="button" class="sm" data-filter="llm" style="--c:#ffe08a">LLM 控机器人</button></li>
+          <li><button type="button" class="sm" data-filter="llm" style="--c:#ffe08a" data-en="LLM to robot">LLM 控机器人</button></li>
         </ul>
       </div>
     </section>
@@ -178,17 +175,17 @@
     <section id="work">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">03</span>
+          <span class="sec-no" aria-hidden="true">04</span>
           <div>
             <p class="eyebrow" lang="en">Work</p>
-            <h2>Bilibili 视频</h2>
+            <h2 data-en="Bilibili videos">Bilibili 视频</h2>
           </div>
         </div>
-        <p class="lede">12 条公开视频。点进卡片，就会打开 Bilibili 上的原片。日期是北京时间。</p>
+        <p class="lede" data-en="12 public videos. Cards open the video, or a project note when there is one. Dates are Beijing time.">12 条公开视频。点进卡片会打开原片；有项目页的会先进入项目笔记。日期是北京时间。</p>
         <p id="filter-status" class="filter-status" aria-live="polite">12 条视频</p>
         <div class="grid">
           <article class="card" id="v-BV1NobG69E3H" data-tags="dual">
-            <a href="https://www.bilibili.com/video/BV1NobG69E3H" target="_blank" rel="noopener noreferrer">
+            <a href="projects/dual-arm-loading.html">
               <div class="thumb">
                 <img src="assets/covers-styled/01-BV1NobG69E3H.png" alt="" width="1280" height="720" loading="lazy">
                 <span class="vf" aria-hidden="true"></span>
@@ -196,9 +193,9 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-09-08T11:33:50+08:00">2026.09.08</time>
-                <h3>双臂机器人工厂上下料</h3>
-                <ul class="tags"><li>双臂操作</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="Dual-arm factory loading and unloading">双臂机器人工厂上下料</h3>
+                <ul class="tags"><li data-en="Dual-arm">双臂操作</li></ul>
+                <span class="card-go" data-en="View project">查看项目</span>
               </div>
             </a>
           </article>
@@ -212,9 +209,9 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-09-08T11:31:24+08:00">2026.09.08</time>
-                <h3>工业具身智能挑战赛 机械臂搭积木</h3>
-                <ul class="tags"><li>机械臂</li><li>挑战赛</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="Industrial embodied-AI challenge: arm block stacking">工业具身智能挑战赛 机械臂搭积木</h3>
+                <ul class="tags"><li data-en="Arm">机械臂</li><li data-en="Challenge">挑战赛</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
@@ -228,16 +225,16 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-09-08T11:26:22+08:00">2026.09.08</time>
-                <h3>双臂机器人移动抓取送货</h3>
-                <p class="card-desc">采用机械臂视觉规控，加上小车自主导航，分层架构。</p>
-                <ul class="tags"><li>移动操作</li><li>双臂</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="Dual-arm mobile pick-and-deliver">双臂机器人移动抓取送货</h3>
+                <p class="card-desc" data-en="Arm visual planning plus mobile-base navigation, in layers.">采用机械臂视觉规控，加上小车自主导航，分层架构。</p>
+                <ul class="tags"><li data-en="Mobile manipulation">移动操作</li><li data-en="Dual-arm">双臂</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
 
           <article class="card" id="v-BV1JTbe6qEMX" data-tags="isaac nav2 sim">
-            <a href="https://www.bilibili.com/video/BV1JTbe6qEMX" target="_blank" rel="noopener noreferrer">
+            <a href="projects/isaac-nav2.html">
               <div class="thumb">
                 <img src="assets/covers-styled/04-BV1JTbe6qEMX.png" alt="" width="1280" height="720" loading="lazy">
                 <span class="vf" aria-hidden="true"></span>
@@ -245,10 +242,10 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-08-17T20:18:20+08:00">2026.08.17</time>
-                <h3>Isaac sim部署nav2实现自主导航</h3>
-                <p class="card-desc">在英伟达的 Isaac Sim 里部署 Nav2 导航算法。</p>
+                <h3 data-en="Nav2 autonomous navigation in Isaac Sim">Isaac sim部署nav2实现自主导航</h3>
+                <p class="card-desc" data-en="Nav2 is deployed inside NVIDIA Isaac Sim.">在英伟达的 Isaac Sim 里部署 Nav2 导航算法。</p>
                 <ul class="tags"><li>Isaac Sim</li><li>Nav2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <span class="card-go" data-en="View project">查看项目</span>
               </div>
             </a>
           </article>
@@ -262,10 +259,10 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-03-10T17:35:26+08:00">2026.03.10</time>
-                <h3>使用openclaw对机器人进行简单控制</h3>
-                <p class="card-desc">前端由 OpenClaw 与 GPT 做自然语言交互和语义解析；中间层是 Node.js 网关、ROS 2 Topic/Service 和 C++ 桥接节点；后端用 ROS 2 与 MoveIt 2 做机械臂动作规划。</p>
+                <h3 data-en="Simple robot control with OpenClaw">使用openclaw对机器人进行简单控制</h3>
+                <p class="card-desc" data-en="OpenClaw and GPT handle language; a Node.js gateway, ROS 2, and a C++ bridge sit in the middle; MoveIt 2 plans the arm.">前端由 OpenClaw 与 GPT 做自然语言交互和语义解析；中间层是 Node.js 网关、ROS 2 Topic/Service 和 C++ 桥接节点；后端用 ROS 2 与 MoveIt 2 做机械臂动作规划。</p>
                 <ul class="tags"><li>OpenClaw</li><li>MoveIt 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
@@ -279,16 +276,16 @@
               </div>
               <div class="card-body">
                 <time datetime="2026-01-07T22:47:15+08:00">2026.01.07</time>
-                <h3>6D姿态视觉定位+Moveit2规划</h3>
-                <p class="card-desc">系统版本：Ubuntu 22.04，ROS 2 Humble。</p>
-                <ul class="tags"><li>6D 姿态</li><li>MoveIt 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="6D visual localization + MoveIt 2 planning">6D姿态视觉定位+Moveit2规划</h3>
+                <p class="card-desc" data-en="The note only lists Ubuntu 22.04 and ROS 2 Humble.">系统版本：Ubuntu 22.04，ROS 2 Humble。</p>
+                <ul class="tags"><li data-en="6D pose">6D 姿态</li><li>MoveIt 2</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
 
           <article class="card" id="v-BV1unBNBZEmL" data-tags="pose foundationpose realsense ros2 vision">
-            <a href="https://www.bilibili.com/video/BV1unBNBZEmL" target="_blank" rel="noopener noreferrer">
+            <a href="projects/pose-6d.html">
               <div class="thumb">
                 <img src="assets/covers-styled/07-BV1unBNBZEmL.png" alt="" width="1280" height="720" loading="lazy">
                 <span class="vf" aria-hidden="true"></span>
@@ -296,16 +293,16 @@
               </div>
               <div class="card-body">
                 <time datetime="2025-12-23T11:49:48+08:00">2025.12.23</time>
-                <h3>6D姿态估计（深度学习版）</h3>
-                <p class="card-desc">相机是 RealSense D415，使用 FoundationPose 的 ROS 2 版本。CAD 用腾讯混元建模，再用建模工具微调。</p>
+                <h3 data-en="6D pose estimation (deep learning)">6D姿态估计（深度学习版）</h3>
+                <p class="card-desc" data-en="RealSense D415 and the ROS 2 build of FoundationPose. CAD from Tencent Hunyuan, then a modeling-tool tweak.">相机是 RealSense D415，使用 FoundationPose 的 ROS 2 版本。CAD 用腾讯混元建模，再用建模工具微调。</p>
                 <ul class="tags"><li>FoundationPose</li><li>RealSense</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <span class="card-go" data-en="View project">查看项目</span>
               </div>
             </a>
           </article>
 
           <article class="card" id="v-BV1XoBNBAEbE" data-tags="pose orbbec vision">
-            <a href="https://www.bilibili.com/video/BV1XoBNBAEbE" target="_blank" rel="noopener noreferrer">
+            <a href="projects/pose-6d.html">
               <div class="thumb">
                 <img src="assets/covers-styled/08-BV1XoBNBAEbE.png" alt="" width="1280" height="720" loading="lazy">
                 <span class="vf" aria-hidden="true"></span>
@@ -313,10 +310,10 @@
               </div>
               <div class="card-body">
                 <time datetime="2025-12-23T11:38:03+08:00">2025.12.23</time>
-                <h3>6D姿态估计（传统cv算法版）</h3>
-                <p class="card-desc">相机是奥比中光 Gemini 335。方法是特征点匹配，加上深度法向量。</p>
-                <ul class="tags"><li>传统视觉</li><li>Orbbec</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="6D pose estimation (classical CV)">6D姿态估计（传统cv算法版）</h3>
+                <p class="card-desc" data-en="Orbbec Gemini 335. The method is feature matching plus depth normals.">相机是奥比中光 Gemini 335。方法是特征点匹配，加上深度法向量。</p>
+                <ul class="tags"><li data-en="Classical vision">传统视觉</li><li>Orbbec</li></ul>
+                <span class="card-go" data-en="View project">查看项目</span>
               </div>
             </a>
           </article>
@@ -349,16 +346,16 @@
                   <path d="M330 150h48" stroke="#ffb15a" stroke-width="6" stroke-linecap="round"/>
                   <path d="M366 138l16 12-16 12" fill="none" stroke="#ffb15a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="ribbon">教程</span>
+                <span class="ribbon" data-en="Tutorial">教程</span>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
               <div class="card-body">
                 <time datetime="2025-10-16T18:23:24+08:00">2025.10.16</time>
-                <h3>ros2机器人导航Nav2教程</h3>
-                <p class="card-desc">视频简介是 Udemy 课程链接。</p>
+                <h3 data-en="ROS 2 Nav2 navigation tutorial">ros2机器人导航Nav2教程</h3>
+                <p class="card-desc" data-en="The description is a Udemy course link.">视频简介是 Udemy 课程链接。</p>
                 <ul class="tags"><li>Nav2</li><li>ROS 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
@@ -399,10 +396,10 @@
               </div>
               <div class="card-body">
                 <time datetime="2025-10-14T22:20:36+08:00">2025.10.14</time>
-                <h3>ros2机器人实习vlog</h3>
-                <p class="card-desc">欢迎大家一起学习交流，共同进步。</p>
-                <ul class="tags"><li>实习 vlog</li><li>ROS 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="ROS 2 robot internship vlog">ros2机器人实习vlog</h3>
+                <p class="card-desc" data-en="The note invites people to learn and exchange ideas.">欢迎大家一起学习交流，共同进步。</p>
+                <ul class="tags"><li data-en="Internship vlog">实习 vlog</li><li>ROS 2</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
@@ -424,16 +421,16 @@
                   <circle cx="210" cy="90" r="5" fill="#ff8ab3"/>
                   <circle cx="470" cy="250" r="5" fill="#ff8ab3"/>
                 </svg>
-                <span class="ribbon">教程</span>
+                <span class="ribbon" data-en="Tutorial">教程</span>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
               <div class="card-body">
                 <time datetime="2025-10-14T14:27:16+08:00">2025.10.14</time>
-                <h3>ros2机器人障碍物避障课程</h3>
-                <p class="card-desc">接在 ROS 2 机器人运动规划课程之后。简介附有 Udemy 链接。</p>
-                <ul class="tags"><li>避障</li><li>ROS 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="ROS 2 robot obstacle-avoidance course">ros2机器人障碍物避障课程</h3>
+                <p class="card-desc" data-en="It follows the ROS 2 motion-planning course. The description includes a Udemy link.">接在 ROS 2 机器人运动规划课程之后。简介附有 Udemy 链接。</p>
+                <ul class="tags"><li data-en="Avoidance">避障</li><li>ROS 2</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
@@ -464,70 +461,115 @@
                   <path d="M410 250c-40 30-86 28-120-6" fill="none" stroke="#ff8ab3" stroke-width="6" stroke-linecap="round"/>
                   <path d="M286 232l-8 20 20 2" fill="#ff8ab3"/>
                 </svg>
-                <span class="ribbon">教程</span>
+                <span class="ribbon" data-en="Tutorial">教程</span>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
               <div class="card-body">
                 <time datetime="2025-10-13T18:15:42+08:00">2025.10.13</time>
-                <h3>ros2机器人运动规划课程</h3>
-                <p class="card-desc">一个 Udemy 上的 ROS 2 机器人运动规划课程。欢迎一起学习交流。</p>
-                <ul class="tags"><li>运动规划</li><li>ROS 2</li></ul>
-                <span class="card-go">在 Bilibili 打开</span>
+                <h3 data-en="ROS 2 robot motion-planning course">ros2机器人运动规划课程</h3>
+                <p class="card-desc" data-en="A Udemy course on ROS 2 robot motion planning. The note welcomes people to learn together.">一个 Udemy 上的 ROS 2 机器人运动规划课程。欢迎一起学习交流。</p>
+                <ul class="tags"><li data-en="Motion planning">运动规划</li><li>ROS 2</li></ul>
+                <span class="card-go" data-en="Open on Bilibili">在 Bilibili 打开</span>
               </div>
             </a>
           </article>
         </div>
-        <p id="empty-filter" class="empty" hidden>这个标签下没有对应视频。</p>
+        <p id="empty-filter" class="empty" hidden data-en="No videos for this tag.">这个标签下没有对应视频。</p>
+      </div>
+    </section>
+
+    <section id="lab">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="sec-no" aria-hidden="true">05</span>
+          <div>
+            <p class="eyebrow" lang="en">Lab</p>
+            <h2 data-en="A small lab bench">实验室角落</h2>
+          </div>
+        </div>
+        <p class="lede" data-en="Toys, not results. Nothing here adds a number that the videos did not publish.">这些是玩具，不是实验结果。这里不会多写视频里没有的数字。</p>
+        <div class="lab-grid">
+          <div class="toy">
+            <h3 data-en="Two-link arm">两连杆小手臂</h3>
+            <p data-en="The cursor is the target. Embodied AI, toy-sized: reach toward the point you can see.">鼠标就是目标点。具身智能的一小步：朝看得到的点伸手。</p>
+            <svg id="arm-svg" class="arm-svg" viewBox="0 0 320 220" role="img" aria-label="两连杆机械臂，跟着指针走" data-en-aria="A two-link arm that follows the pointer">
+              <rect x="40" y="176" width="70" height="10" rx="4" fill="#243049"/>
+              <line id="link1" x1="70" y1="168" x2="140" y2="120" stroke="#7aefff" stroke-width="10" stroke-linecap="round"/>
+              <line id="link2" x1="140" y1="120" x2="190" y2="70" stroke="#ffb15a" stroke-width="8" stroke-linecap="round"/>
+              <circle id="j0" cx="70" cy="168" r="8" fill="#ffe08a"/>
+              <circle id="j1" cx="140" cy="120" r="7" fill="#ff8ab3"/>
+              <circle id="tip" cx="190" cy="70" r="6" fill="#f6f8ff"/>
+            </svg>
+          </div>
+          <div>
+            <button class="pose-stage" id="pose-stage" type="button">
+              <span class="cube" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="axes" aria-hidden="true"><b>X</b><b>Y</b><b>Z</b></span>
+              <span data-en="Detect my pose">检测我的姿态</span>
+            </button>
+            <p class="note" data-en="Not FoundationPose. Just a spinning frame. 6D would also need roll, pitch, and yaw, and this cube does not measure them.">这不是 FoundationPose，只是一个会转的坐标系。真要 6D，还得有滚转、俯仰和偏航，这个方块测不了。</p>
+          </div>
+          <article class="fact-card">
+            <h3 data-en="From the videos">从视频里摘一句</h3>
+            <p id="fact-body">公开视频一共 12 条，从 2025 年 10 月到 2026 年 9 月。</p>
+            <button class="copy" id="fact-next" type="button" data-en="Another one">换一条</button>
+          </article>
+          <article class="like-card">
+            <h3 data-en="A local heart">本机的一颗心</h3>
+            <p data-en="Stored only in this browser. There is no server counting it.">只存在这台浏览器里，没有服务器在计数。</p>
+            <button class="btn btn-primary" id="like-btn" type="button"><span data-en="Like">觉得有意思</span> · <span id="like-count">0</span></button>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="timeline">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">04</span>
+          <span class="sec-no" aria-hidden="true">06</span>
           <div>
             <p class="eyebrow" lang="en">Timeline</p>
-            <h2>按发布日期排列</h2>
+            <h2 data-en="By publish date">按发布日期排列</h2>
           </div>
         </div>
-        <p class="lede">从 2025 年 10 月的课程和实习 vlog，到 2026 年 9 月的双臂与移动操作。点标题回到对应视频。</p>
+        <p class="lede" data-en="From the October 2025 courses and internship vlog to the September 2026 manipulation videos. A title jumps back to that card.">从 2025 年 10 月的课程和实习 vlog，到 2026 年 9 月的双臂与移动操作。点标题回到对应视频。</p>
         <div class="timeline">
           <div class="tl-group">
-            <h3>2025.10 · 课程与实习</h3>
+            <h3 data-en="2025.10 · Courses and internship">2025.10 · 课程与实习</h3>
             <ol class="tl">
-              <li><a href="#v-BV1Ak42zsEny"><time datetime="2025-10-13">10.13</time><span>ros2机器人运动规划课程</span></a></li>
-              <li><a href="#v-BV1ZP49zYEL8"><time datetime="2025-10-14">10.14</time><span>ros2机器人障碍物避障课程</span></a></li>
-              <li><a href="#v-BV1L448zhEHk"><time datetime="2025-10-14">10.14</time><span>ros2机器人实习vlog</span></a></li>
-              <li><a href="#v-BV1ZDWqzjEra"><time datetime="2025-10-16">10.16</time><span>ros2机器人导航Nav2教程</span></a></li>
+              <li><a href="#v-BV1Ak42zsEny"><time datetime="2025-10-13">10.13</time><span data-en="ROS 2 robot motion-planning course">ros2机器人运动规划课程</span></a></li>
+              <li><a href="#v-BV1ZP49zYEL8"><time datetime="2025-10-14">10.14</time><span data-en="ROS 2 robot obstacle-avoidance course">ros2机器人障碍物避障课程</span></a></li>
+              <li><a href="#v-BV1L448zhEHk"><time datetime="2025-10-14">10.14</time><span data-en="ROS 2 robot internship vlog">ros2机器人实习vlog</span></a></li>
+              <li><a href="#v-BV1ZDWqzjEra"><time datetime="2025-10-16">10.16</time><span data-en="ROS 2 Nav2 navigation tutorial">ros2机器人导航Nav2教程</span></a></li>
             </ol>
           </div>
           <div class="tl-group">
-            <h3>2025.12 – 2026.01 · 6D 姿态与规划</h3>
+            <h3 data-en="2025.12 – 2026.01 · 6D pose and planning">2025.12 – 2026.01 · 6D 姿态与规划</h3>
             <ol class="tl">
-              <li><a href="#v-BV1XoBNBAEbE"><time datetime="2025-12-23">12.23</time><span>6D姿态估计（传统cv算法版）</span></a></li>
-              <li><a href="#v-BV1unBNBZEmL"><time datetime="2025-12-23">12.23</time><span>6D姿态估计（深度学习版）</span></a></li>
-              <li><a href="#v-BV1UziyBcE7b"><time datetime="2026-01-07">01.07</time><span>6D姿态视觉定位+Moveit2规划</span></a></li>
+              <li><a href="#v-BV1XoBNBAEbE"><time datetime="2025-12-23">12.23</time><span data-en="6D pose estimation (classical CV)">6D姿态估计（传统cv算法版）</span></a></li>
+              <li><a href="#v-BV1unBNBZEmL"><time datetime="2025-12-23">12.23</time><span data-en="6D pose estimation (deep learning)">6D姿态估计（深度学习版）</span></a></li>
+              <li><a href="#v-BV1UziyBcE7b"><time datetime="2026-01-07">01.07</time><span data-en="6D visual localization + MoveIt 2 planning">6D姿态视觉定位+Moveit2规划</span></a></li>
             </ol>
           </div>
           <div class="tl-group">
-            <h3>2026.03 · 语言到动作</h3>
+            <h3 data-en="2026.03 · Language to motion">2026.03 · 语言到动作</h3>
             <ol class="tl">
-              <li><a href="#v-BV1T5NFzrEjh"><time datetime="2026-03-10">03.10</time><span>使用openclaw对机器人进行简单控制</span></a></li>
+              <li><a href="#v-BV1T5NFzrEjh"><time datetime="2026-03-10">03.10</time><span data-en="Simple robot control with OpenClaw">使用openclaw对机器人进行简单控制</span></a></li>
             </ol>
           </div>
           <div class="tl-group">
-            <h3>2026.08 · 仿真导航</h3>
+            <h3 data-en="2026.08 · Navigation in simulation">2026.08 · 仿真导航</h3>
             <ol class="tl">
-              <li><a href="#v-BV1JTbe6qEMX"><time datetime="2026-08-17">08.17</time><span>Isaac sim部署nav2实现自主导航</span></a></li>
+              <li><a href="#v-BV1JTbe6qEMX"><time datetime="2026-08-17">08.17</time><span data-en="Nav2 autonomous navigation in Isaac Sim">Isaac sim部署nav2实现自主导航</span></a></li>
             </ol>
           </div>
           <div class="tl-group">
-            <h3>2026.09 · 具身操作</h3>
+            <h3 data-en="2026.09 · Embodied manipulation">2026.09 · 具身操作</h3>
             <ol class="tl">
-              <li><a href="#v-BV1sfbG6pEsJ"><time datetime="2026-09-08">09.08</time><span>双臂机器人移动抓取送货</span></a></li>
-              <li><a href="#v-BV1NobG69EbP"><time datetime="2026-09-08">09.08</time><span>工业具身智能挑战赛 机械臂搭积木</span></a></li>
-              <li><a href="#v-BV1NobG69E3H"><time datetime="2026-09-08">09.08</time><span>双臂机器人工厂上下料</span></a></li>
+              <li><a href="#v-BV1sfbG6pEsJ"><time datetime="2026-09-08">09.08</time><span data-en="Dual-arm mobile pick-and-deliver">双臂机器人移动抓取送货</span></a></li>
+              <li><a href="#v-BV1NobG69EbP"><time datetime="2026-09-08">09.08</time><span data-en="Industrial embodied-AI challenge: arm block stacking">工业具身智能挑战赛 机械臂搭积木</span></a></li>
+              <li><a href="#v-BV1NobG69E3H"><time datetime="2026-09-08">09.08</time><span data-en="Dual-arm factory loading and unloading">双臂机器人工厂上下料</span></a></li>
             </ol>
           </div>
         </div>
@@ -537,18 +579,18 @@
     <section id="contact">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">05</span>
+          <span class="sec-no" aria-hidden="true">07</span>
           <div>
             <p class="eyebrow" lang="en">Contact</p>
-            <h2>联系</h2>
+            <h2 data-en="Contact">联系</h2>
           </div>
         </div>
-        <p class="lede">内推、岗位或想一起聊机器人，直接写邮件就好。</p>
+        <p class="lede" data-en="To talk about robots or vision, email works.">想聊聊机器人或视觉，写邮件就好。</p>
         <div class="contact-grid">
           <div class="contact-card">
-            <strong>邮箱</strong>
+            <strong data-en="Email">邮箱</strong>
             <a class="mail-link" href="mailto:18131537762@163.com">18131537762@163.com</a>
-            <button class="copy" id="copy-email" type="button">复制邮箱</button>
+            <button class="copy" id="copy-email" type="button" data-en="Copy email">复制邮箱</button>
           </div>
           <a class="contact-card" href="https://github.com/mwaiting002">
             <strong>GitHub</strong>
@@ -557,7 +599,7 @@
           </a>
           <a class="contact-card" href="https://space.bilibili.com/698231403">
             <strong>Bilibili · Mwaitwait</strong>
-            <span>270 位关注者</span>
+            <span data-en="270 followers">270 位关注者</span>
             <span>space.bilibili.com/698231403</span>
           </a>
         </div>
@@ -568,9 +610,13 @@
   <footer class="site-footer">
     <div class="wrap">
       <p>muxintian · Mwaitwait</p>
-      <p>个人介绍页 · 无第三方统计</p>
+      <p data-en="Personal page · no third-party analytics">个人介绍页 · 无第三方统计</p>
+      <p data-en="There are some hidden surprises here 👀">这里藏了几个小惊喜 👀</p>
+      <p data-egg-count>彩蛋 0/10</p>
     </div>
   </footer>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
+  <script src="extras.js"></script>
 </body>
 </html>

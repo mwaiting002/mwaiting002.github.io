@@ -6,7 +6,7 @@ Space: https://space.bilibili.com/698231403
 ## Profile (from official Bilibili APIs)
 
 - Nickname: **Mwaitwait** (mid `698231403`)
-- Bio / sign: 研三找工作中，求大佬们内推٩( 'ω' )و
+- Bio / sign: (not republished on the site)
 - Avatar: https://i0.hdslb.com/bfs/face/f73346bd813b1270f1ca3d9396a7d8e03ae236bd.jpg
 - Followers: 270
 - Following: 148

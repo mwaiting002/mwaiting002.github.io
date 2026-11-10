@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#070b16">
+  <title data-en="6D pose estimation · muxintian">6D 姿态估计 · muxintian</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-en="Skip to content">跳到主要内容</a>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="../index.html">muxintian</a>
+      <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
+        <a href="../index.html#about" data-en="About">关于</a>
+        <a href="../index.html#awards" data-en="Awards">获奖</a>
+        <a href="../index.html#work" data-en="Videos">作品</a>
+        <a href="../index.html#lab" data-en="Lab">实验室</a>
+        <a href="../index.html#contact" data-en="Contact">联系</a>
+      </nav>
+      <div class="tools">
+        <button class="tool-btn" id="lang-toggle" type="button">EN</button>
+        <button class="tool-btn" id="weather-toggle" type="button" aria-label="切换天气">☀</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-label="切换日间">☀</button>
+        <button class="tool-btn" id="term-toggle" type="button" aria-label="打开终端" data-en-aria="Open terminal">&gt;_</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">打开菜单</span><span class="burger" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <main id="main" class="project">
+    <div class="wrap prose">
+      <a class="back" href="../index.html#work" data-en="← Back to videos">← 返回作品</a>
+      <p class="eyebrow" lang="en">Project</p>
+      <h1 data-en="6D pose estimation">6D 姿态估计</h1>
+      <p><time datetime="2025-12-23">2025.12.23</time></p>
+      <div class="project-grid">
+        <figure class="demo-frame">
+          <img src="../assets/demos/pose-6d.gif" width="480" height="270" alt="深度学习版 6D 姿态视频封面的缓慢推移" data-en-alt="Slow pan across the cover of the deep-learning 6D pose video">
+        </figure>
+        <figure class="still-frame">
+          <img src="../assets/covers-styled/07-BV1unBNBZEmL.png" width="1280" height="720" alt="深度学习版封面" data-en-alt="Deep-learning video cover">
+        </figure>
+      </div>
+      <p class="note" data-en="The loop is a slow pan of the deep-learning video's cover, not a measured demo. Both full recordings are on Bilibili.">循环画面是深度学习版封面的缓慢推移，不是量化演示。两条原片都在 Bilibili。</p>
+      <h2 data-en="Problem">问题</h2>
+      <p data-en="Two videos posted the same day are about estimating an object's 6D pose: a deep-learning version and a classical computer-vision version. The posts do not name a benchmark or a target accuracy.">同一天的两条视频都在做物体的 6D 姿态估计：一个深度学习版，一个传统计算机视觉版。帖子没有写评测集，也没有写目标精度。</p>
+      <h2 data-en="Approach">方法</h2>
+      <p data-en="Deep-learning version (BV1unBNBZEmL): a RealSense D415 camera and the ROS 2 build of FoundationPose. The CAD model was made with Tencent Hunyuan and then adjusted in a modeling tool.">深度学习版（BV1unBNBZEmL）：相机是 RealSense D415，用 FoundationPose 的 ROS 2 版本。CAD 用腾讯混元建模，再用建模工具微调。</p>
+      <p data-en="Classical version (BV1XoBNBAEbE, a few minutes earlier the same day): an Orbbec Gemini 335 camera. The method is feature matching plus depth normals.">传统版（BV1XoBNBAEbE，同一天稍早）：相机是奥比中光 Gemini 335。方法是特征点匹配，加上深度法向量。</p>
+      <p data-en="A later video on 2026-01-07 is titled “6D姿态视觉定位+Moveit2规划”. Its description only says the system is Ubuntu 22.04 and ROS 2 Humble.">2026-01-07 还有一条相关视频，标题是「6D姿态视觉定位+Moveit2规划」。简介只写了系统为 Ubuntu 22.04、ROS 2 Humble。</p>
+      <h2 data-en="Results">结果</h2>
+      <p data-en="Neither description gives an error or a success rate. This page does not add one. The recordings themselves are the result that was published.">两条简介都没有给出误差或成功率。这个页面也不补数字。公开出来的结果就是那两条录像。</p>
+      <p><a href="https://www.bilibili.com/video/BV1unBNBZEmL" data-en="Watch the deep-learning video on Bilibili">在 Bilibili 观看深度学习版</a></p>
+      <p><a href="https://www.bilibili.com/video/BV1XoBNBAEbE" data-en="Watch the classical video on Bilibili">在 Bilibili 观看传统版</a></p>
+      <p><a href="https://www.bilibili.com/video/BV1UziyBcE7b" data-en="Related: 6D localization + MoveIt 2">相关视频：6D 视觉定位 + MoveIt 2</a></p>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="wrap"><p>muxintian · Mwaitwait</p><p data-egg-count>彩蛋 0/10</p></div></footer>
+  <script src="../i18n.js"></script>
+  <script src="../script.js"></script>
+  <script src="../extras.js"></script>
+</body>
+</html>
