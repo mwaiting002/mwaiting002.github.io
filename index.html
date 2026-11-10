@@ -52,6 +52,7 @@
         <a href="#about" data-en="About">关于</a>
         <a href="#awards" data-en="Awards">获奖</a>
         <a href="#skills" data-en="Skills">技能</a>
+        <a href="#bench" data-en="Bench">场景</a>
         <a href="#work" data-en="Videos">作品</a>
         <a href="#lab" data-en="Lab">实验室</a>
         <a href="#timeline" data-en="Timeline">时间线</a>
@@ -172,10 +173,39 @@
       </div>
     </section>
 
-    <section id="work">
+    <section id="bench">
       <div class="wrap">
         <div class="section-head">
           <span class="sec-no" aria-hidden="true">04</span>
+          <div>
+            <p class="eyebrow" lang="en">Bench</p>
+            <h2 data-en="Scene and skill graph">场景和技能图</h2>
+          </div>
+        </div>
+        <p class="lede" data-en="Drag to orbit the lab. Click a part or a graph node. The nodes are only techniques already named on this page.">拖动可以绕着实验台看。点一个部件或图上的节点。节点只来自这页已经写过的技术。</p>
+        <div class="bench-grid">
+          <div class="scene-stage" id="scene-stage">
+            <canvas id="scene" width="640" height="380" aria-label="可旋转的双臂实验台" data-en-aria="Orbitable dual-arm lab"></canvas>
+            <div id="scene-fallback" class="scene-fallback">
+              <p data-en="WebGL is unavailable. The same three notes are linked here.">这里用不了 WebGL。下面仍是那三个项目笔记。</p>
+              <p><a href="projects/dual-arm-loading.html" data-en="Dual-arm loading">双臂上下料</a></p>
+              <p><a href="projects/pose-6d.html" data-en="6D pose">6D 姿态</a></p>
+              <p><a href="projects/isaac-nav2.html">Isaac Sim + Nav2</a></p>
+            </div>
+            <p id="scene-card" class="scene-card" data-en="Drag to look around. Click an arm, the camera, or the green panel.">拖动环视。点机械臂、相机，或绿色的仿真板。</p>
+          </div>
+          <div class="graph-stage">
+            <svg id="skill-graph" viewBox="0 0 640 420" role="img" aria-label="技能关系图" data-en-aria="Skill graph"></svg>
+            <p id="graph-note" class="note" data-en="Click a node to filter the videos below.">点一个节点，筛选下面的视频。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="sec-no" aria-hidden="true">05</span>
           <div>
             <p class="eyebrow" lang="en">Work</p>
             <h2 data-en="Bilibili videos">Bilibili 视频</h2>
@@ -482,7 +512,7 @@
     <section id="lab">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">05</span>
+          <span class="sec-no" aria-hidden="true">06</span>
           <div>
             <p class="eyebrow" lang="en">Lab</p>
             <h2 data-en="A small lab bench">实验室角落</h2>
@@ -527,7 +557,7 @@
     <section id="timeline">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">06</span>
+          <span class="sec-no" aria-hidden="true">07</span>
           <div>
             <p class="eyebrow" lang="en">Timeline</p>
             <h2 data-en="By publish date">按发布日期排列</h2>
@@ -579,7 +609,7 @@
     <section id="contact">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">07</span>
+          <span class="sec-no" aria-hidden="true">08</span>
           <div>
             <p class="eyebrow" lang="en">Contact</p>
             <h2 data-en="Contact">联系</h2>
@@ -617,6 +647,8 @@
   </footer>
   <script src="i18n.js"></script>
   <script src="script.js"></script>
+  <script src="scene.js"></script>
+  <script src="graph.js"></script>
   <script src="extras.js"></script>
 </body>
 </html>

@@ -369,9 +369,9 @@
   term.id = "terminal";
   term.hidden = true;
   term.innerHTML =
-    '<div class="term-bar"><span>muxintian@lab</span><button type="button" id="term-close" aria-label="Close">×</button></div>' +
+    '<div class="term-bar"><span class="term-dots" aria-hidden="true"></span><span>isaac-sim</span><em>ros2</em><button type="button" id="term-close" aria-label="Close">×</button></div>' +
     '<div id="term-log" role="log"></div>' +
-    '<form id="term-form"><span aria-hidden="true">$</span><input id="term-in" autocomplete="off" spellcheck="false"></form>';
+    '<form id="term-form"><span class="term-prompt" aria-hidden="true">ros2&gt;</span><input id="term-in" autocomplete="off" spellcheck="false"></form>';
   document.body.appendChild(term);
   var termLog = document.getElementById("term-log");
   var termIn = document.getElementById("term-in");
@@ -384,17 +384,66 @@
     termLog.scrollTop = termLog.scrollHeight;
   }
   function helpText() {
-    return tr(
-      "help · whoami · ls projects · ros2 topic list · ros2 run muxintian hello · ros2 run muxintian game · weather <sunny|rain|snow|thunder|night|clear|auto> · theme [day|night] · sudo make coffee · clear",
-      "help · whoami · ls projects · ros2 topic list · ros2 run muxintian hello · ros2 run muxintian game · weather <sunny|rain|snow|thunder|night|clear|auto> · theme [day|night] · sudo make coffee · clear"
-    );
+    [
+      "help",
+      "whoami",
+      "ls projects",
+      "ros2 topic list",
+      "ros2 topic echo /pose_6d",
+      "ros2 run muxintian hello | game | scene | graph",
+      "open <dual-arm|pose|isaac|scene|graph>",
+      "skill <ros2|nav2|moveit|isaac|pose|foundationpose|realsense|orbbec|dual|mobile|openclaw|llm>",
+      "graph",
+      "weather <sunny|rain|snow|thunder|night|clear|auto>",
+      "theme [day|night]",
+      "sudo make coffee",
+      "clear"
+    ].forEach(function (line) { termLine(line); });
   }
+  function sitePrefix() {
+    return location.pathname.indexOf("/projects/") !== -1 ? "../" : "";
+  }
+  function goHash(id) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+      return;
+    }
+    location.href = sitePrefix() + "index.html#" + id;
+  }
+  function openPage(file) {
+    location.href = sitePrefix() + file;
+  }
+  function focusSkill(key) {
+    var chip = document.querySelector('[data-filter="' + key + '"]');
+    if (chip) {
+      chip.click();
+      if (window.highlightGraph) window.highlightGraph(key);
+      return;
+    }
+    location.href = sitePrefix() + "index.html?tag=" + encodeURIComponent(key) + "#work";
+  }
+  var skillAlias = {
+    ros2: "ros2", "ros": "ros2", nav2: "nav2", moveit: "moveit", "moveit2": "moveit",
+    isaac: "isaac", pose: "pose", "6d": "pose", foundationpose: "foundationpose",
+    realsense: "realsense", orbbec: "orbbec", dual: "dual", mobile: "mobile",
+    openclaw: "openclaw", llm: "llm", gpt: "llm"
+  };
+  var projectAlias = {
+    "dual-arm": "projects/dual-arm-loading.html",
+    dual: "projects/dual-arm-loading.html",
+    pose: "projects/pose-6d.html",
+    "pose-6d": "projects/pose-6d.html",
+    isaac: "projects/isaac-nav2.html",
+    "isaac-nav2": "projects/isaac-nav2.html",
+    nav2: "projects/isaac-nav2.html"
+  };
   function runCommand(raw) {
-    var line = raw.trim();
-    termLine("$ " + line, "cmd");
+    var line = raw.trim().replace(/\s+/g, " ");
+    termLine("ros2> " + line, "cmd");
     var lower = line.toLowerCase();
     if (!lower) return;
-    if (lower === "help") termLine(helpText());
+    if (lower === "help") helpText();
     else if (lower === "clear") termLog.textContent = "";
     else if (lower === "whoami") {
       termLine("muxintian");
@@ -408,14 +457,36 @@
       termLine("projects/pose-6d             " + tr("6D 姿态（传统 + FoundationPose）", "6D pose (classical + FoundationPose)"));
       termLine("projects/isaac-nav2          Isaac Sim + Nav2");
     } else if (lower === "ros2 topic list") {
-      termLine(tr("# 不是在线图，只是视频里出现过的名字", "# not a live graph — names taken from the videos"));
+      termLine(tr("# 不是在线图，名字来自视频简介", "# not a live graph — names from the video notes"));
       ["/camera/realsense_d415", "/camera/gemini_335", "/pose_6d", "/moveit/plan", "/nav2", "/openclaw/cmd"].forEach(termLine);
+    } else if (lower === "ros2 topic echo /pose_6d") {
+      termLine(tr("没有在线发布者。笔记在 projects/pose-6d。", "No live publisher. Notes are in projects/pose-6d."));
+      termLine(tr("RealSense D415 · FoundationPose ROS 2 · 奥比中光 Gemini 335", "RealSense D415 · FoundationPose ROS 2 · Orbbec Gemini 335"));
     } else if (lower === "ros2 run muxintian hello") {
       termLine("hello from muxintian");
       termLine(tr("研三 · 具身智能 · 计算机视觉", "graduate student · embodied AI · computer vision"));
     } else if (lower === "ros2 run muxintian game") {
       termLine(tr("打开接星星的小游戏。", "Opening the star-catching game."));
       openGame();
+    } else if (lower === "ros2 run muxintian scene" || lower === "ros2 launch scene") {
+      termLine(tr("转到实验台场景。", "Opening the lab scene."));
+      goHash("bench");
+    } else if (lower === "ros2 run muxintian graph" || lower === "graph" || lower === "skill" || lower === "skill graph") {
+      termLine(tr("转到技能图。", "Opening the skill graph."));
+      goHash("skill-graph");
+    } else if (lower.indexOf("open ") === 0) {
+      var what = lower.slice(5);
+      if (what === "scene" || what === "bench") goHash("bench");
+      else if (what === "graph") goHash("skill-graph");
+      else if (projectAlias[what]) openPage(projectAlias[what]);
+      else termLine(tr("可打开：dual-arm, pose, isaac, scene, graph", "open: dual-arm, pose, isaac, scene, graph"));
+    } else if (lower.indexOf("skill ") === 0) {
+      var key = skillAlias[lower.slice(6)];
+      if (!key) termLine(tr("没有这个节点。输入 skill 看图。", "No such node. Try: graph"));
+      else {
+        termLine("skill " + key);
+        focusSkill(key);
+      }
     } else if (lower === "theme") {
       var cur = document.documentElement.getAttribute("data-theme") === "day" ? "night" : "day";
       applyTheme(cur, true);
@@ -424,7 +495,7 @@
       applyTheme(lower.split(" ")[1], true);
       termLine("theme " + lower.split(" ")[1]);
     } else if (lower.indexOf("weather ") === 0) {
-      var mode = lower.split(/\s+/)[1];
+      var mode = lower.split(" ")[1];
       if (mode === "auto" || MODES.indexOf(mode) !== -1) {
         setWeather(mode, mode !== "auto");
         if (mode === "auto") foundEgg("weather");
@@ -440,7 +511,7 @@
     term.hidden = !term.hidden;
     if (!term.hidden) {
       foundEgg("terminal");
-      if (!termLog.childElementCount) termLine(helpText());
+      if (!termLog.childElementCount) helpText();
       termIn.focus();
       termIn.setAttribute("aria-label", tr("终端命令", "Terminal command"));
     }
