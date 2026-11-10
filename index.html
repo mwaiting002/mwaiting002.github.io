@@ -50,7 +50,6 @@
       </a>
       <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
         <a href="#about" data-en="About">关于</a>
-        <a href="#awards" data-en="Awards">获奖</a>
         <a href="#skills" data-en="Skills">技能</a>
         <a href="#bench" data-en="Bench">场景</a>
         <a href="#work" data-en="Videos">作品</a>
@@ -117,6 +116,7 @@
           <div>
             <p data-en="I'm muxintian, 25, a third-year graduate student. I work on embodied AI and computer vision: seeing an object's pose, then planning motion for manipulation and navigation.">我是 muxintian，25 岁，研三研究生。研究兴趣是具身智能（embodied AI）和计算机视觉：让机器人看清物体的姿态，再规划动作，完成操作和导航。</p>
             <p data-en-html='The experiments are on Bilibili under <a href="https://space.bilibili.com/698231403">Mwaitwait</a>. These 12 videos run from October 2025 to September 2026: ROS 2 courses and an internship vlog, 6D pose estimation, MoveIt 2 planning, OpenClaw connecting language to an arm, Nav2 in Isaac Sim, plus dual-arm loading, block stacking, and mobile pick-and-deliver.'>实验和项目记在 Bilibili，昵称 <a href="https://space.bilibili.com/698231403">Mwaitwait</a>。这里的 12 条视频从 2025 年 10 月排到 2026 年 9 月：ROS 2 课程和实习 vlog，6D 姿态估计，MoveIt 2 规划，OpenClaw 把语言接到机械臂，Isaac Sim 里的 Nav2，以及双臂上下料、搭积木和移动抓取送货。</p>
+            <p data-en="Also a national first prize in the China Robot and Artificial Intelligence Competition.">另外，中国机器人及人工智能大赛国家一等奖。</p>
           </div>
           <ul class="stats">
             <li><strong>25</strong><span data-en="years old">岁</span></li>
@@ -128,27 +128,10 @@
       </div>
     </section>
 
-    <section id="awards">
-      <div class="wrap">
-        <div class="section-head">
-          <span class="sec-no" aria-hidden="true">02</span>
-          <div>
-            <p class="eyebrow" lang="en">Awards</p>
-            <h2 data-en="Honors">获奖</h2>
-          </div>
-        </div>
-        <article class="award">
-          <p class="award-prize" data-en="National First Prize">国家一等奖</p>
-          <h3 data-en="China Robot and Artificial Intelligence Competition">中国机器人及人工智能大赛</h3>
-          <p data-en="中国机器人及人工智能大赛">China Robot and Artificial Intelligence Competition</p>
-        </article>
-      </div>
-    </section>
-
     <section id="skills">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">03</span>
+          <span class="sec-no" aria-hidden="true">02</span>
           <div>
             <p class="eyebrow" lang="en">Stack</p>
             <h2 data-en="Techniques that show up in the videos">视频里出现过的技术</h2>
@@ -176,7 +159,7 @@
     <section id="bench">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">04</span>
+          <span class="sec-no" aria-hidden="true">03</span>
           <div>
             <p class="eyebrow" lang="en">Bench</p>
             <h2 data-en="Scene and skill graph">场景和技能图</h2>
@@ -194,9 +177,12 @@
             </div>
             <p id="scene-card" class="scene-card" data-en="Drag to look around. Click an arm, the camera, or the green panel.">拖动环视。点机械臂、相机，或绿色的仿真板。</p>
           </div>
-          <div class="graph-stage">
-            <svg id="skill-graph" viewBox="0 0 640 420" role="img" aria-label="技能关系图" data-en-aria="Skill graph"></svg>
-            <p id="graph-note" class="note" data-en="Click a node to filter the videos below.">点一个节点，筛选下面的视频。</p>
+          <div class="graph-stage" id="skill-graph">
+            <canvas id="graph-canvas" aria-label="三维技能图" data-en-aria="3D skill graph"></canvas>
+            <div id="graph-fallback" class="scene-fallback">
+              <p data-en="WebGL is unavailable. The skill chips above still filter the videos.">这里用不了 WebGL。上面的技术标签仍然可以筛选视频。</p>
+            </div>
+            <p id="graph-note" class="note" data-en="Click a node to focus it and filter the videos.">点一个节点会拉近，并筛选下面的视频。</p>
           </div>
         </div>
       </div>
@@ -205,7 +191,7 @@
     <section id="work">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">05</span>
+          <span class="sec-no" aria-hidden="true">04</span>
           <div>
             <p class="eyebrow" lang="en">Work</p>
             <h2 data-en="Bilibili videos">Bilibili 视频</h2>
@@ -512,7 +498,7 @@
     <section id="lab">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">06</span>
+          <span class="sec-no" aria-hidden="true">05</span>
           <div>
             <p class="eyebrow" lang="en">Lab</p>
             <h2 data-en="A small lab bench">实验室角落</h2>
@@ -557,7 +543,7 @@
     <section id="timeline">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">07</span>
+          <span class="sec-no" aria-hidden="true">06</span>
           <div>
             <p class="eyebrow" lang="en">Timeline</p>
             <h2 data-en="By publish date">按发布日期排列</h2>
@@ -609,7 +595,7 @@
     <section id="contact">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">08</span>
+          <span class="sec-no" aria-hidden="true">07</span>
           <div>
             <p class="eyebrow" lang="en">Contact</p>
             <h2 data-en="Contact">联系</h2>
@@ -647,8 +633,8 @@
   </footer>
   <script src="i18n.js"></script>
   <script src="script.js"></script>
-  <script src="scene.js"></script>
-  <script src="graph.js"></script>
+  <script type="module" src="scene.js"></script>
+  <script type="module" src="graph.js"></script>
   <script src="extras.js"></script>
 </body>
 </html>

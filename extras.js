@@ -571,8 +571,7 @@
     ["Isaac Sim 那条视频的简介只有一句：在英伟达的 Isaac Sim 里部署 Nav2。", "The Isaac Sim video's description is one sentence: Nav2 is deployed inside NVIDIA Isaac Sim."],
     ["OpenClaw 那条是三层：OpenClaw 与 GPT，Node.js / ROS 2 / C++ 桥，MoveIt 2 规划。", "The OpenClaw video is three layers: OpenClaw and GPT, a Node.js / ROS 2 / C++ bridge, and MoveIt 2 planning."],
     ["移动抓取那条写的是机械臂视觉规控，加上小车自主导航，分层架构。", "The mobile pick-and-deliver video describes arm visual planning plus base navigation, in layers."],
-    ["6D 视觉定位加 MoveIt 2 那条，简介只写了 Ubuntu 22.04 和 ROS 2 Humble。", "The 6D localization plus MoveIt 2 video only notes Ubuntu 22.04 and ROS 2 Humble."],
-    ["获奖条目只有这一条：中国机器人及人工智能大赛，国家一等奖。页面上没有写年份。", "The only award listed is a national first prize in the China Robot and Artificial Intelligence Competition. No year is shown."]
+    ["6D 视觉定位加 MoveIt 2 那条，简介只写了 Ubuntu 22.04 和 ROS 2 Humble。", "The 6D localization plus MoveIt 2 video only notes Ubuntu 22.04 and ROS 2 Humble."]
   ];
   var factAt = 0;
   var factBody = document.getElementById("fact-body");

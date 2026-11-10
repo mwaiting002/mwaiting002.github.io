@@ -1,14 +1,15 @@
-(function () {
-  "use strict";
+import * as THREE from "./assets/vendor/three/three.module.js";
+import { OrbitControls } from "./assets/vendor/three/OrbitControls.js";
 
-  var canvas = document.getElementById("scene");
-  var stage = document.getElementById("scene-stage");
-  var card = document.getElementById("scene-card");
-  var fallback = document.getElementById("scene-fallback");
-  if (!canvas || !stage) return;
-
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var mobile = window.matchMedia("(max-width: 760px)").matches;
+const canvas = document.getElementById("scene");
+const stage = document.getElementById("scene-stage");
+const card = document.getElementById("scene-card");
+const fallback = document.getElementById("scene-fallback");
+if (!canvas || !stage) {
+  /* project pages do not include the lab */
+} else {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobile = window.matchMedia("(max-width: 760px)").matches;
 
   function tr(zh, en) {
     return window.siteLang && siteLang.get() === "en" ? en : zh;
@@ -19,410 +20,397 @@
     if (fallback) fallback.hidden = false;
   }
 
-  var gl = canvas.getContext("webgl", { antialias: true, alpha: false, powerPreference: "low-power" });
-  if (!gl) {
-    showFallback();
-    return;
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: !mobile,
+      alpha: false,
+      powerPreference: "high-performance"
+    });
+  } catch (err) {
+    renderer = null;
   }
-  stage.classList.add("has-webgl");
-  if (fallback) fallback.hidden = true;
+  if (!renderer) showFallback();
+  else {
+    stage.classList.add("has-webgl");
+    if (fallback) fallback.hidden = true;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
 
-  function compile(type, src) {
-    var shader = gl.createShader(type);
-    gl.shaderSource(shader, src);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      gl.deleteShader(shader);
-      return null;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x05070e);
+    scene.fog = new THREE.FogExp2(0x05070e, 0.075);
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
+    camera.position.set(4.4, 2.5, 4.6);
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.autoRotate = !reduce;
+    controls.autoRotateSpeed = 0.65;
+    controls.enablePan = false;
+    controls.minDistance = 3.2;
+    controls.maxDistance = 9;
+    controls.minPolarAngle = 0.35;
+    controls.maxPolarAngle = Math.PI * 0.49;
+    controls.target.set(0, 0.55, 0);
+
+    scene.add(new THREE.AmbientLight(0x8fb4c8, 0.35));
+    scene.add(new THREE.HemisphereLight(0x9ad7ff, 0x070910, 0.45));
+    const key = new THREE.DirectionalLight(0xf4f7ff, 1.35);
+    key.position.set(4, 7, 3);
+    scene.add(key);
+    const cyan = new THREE.PointLight(0x39e7ff, 18, 9, 2);
+    cyan.position.set(-1.8, 1.8, 1.2);
+    scene.add(cyan);
+    const magenta = new THREE.PointLight(0xff4d88, 12, 8, 2);
+    magenta.position.set(1.8, 1.4, -1.1);
+    scene.add(magenta);
+
+    const floor = new THREE.Mesh(
+      new THREE.CircleGeometry(7, 64),
+      new THREE.MeshStandardMaterial({ color: 0x0b101a, metalness: 0.85, roughness: 0.42 })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -0.02;
+    scene.add(floor);
+    const grid = new THREE.GridHelper(10, 28, 0x2ee7ff, 0x14344a);
+    grid.position.y = 0;
+    grid.material.transparent = true;
+    grid.material.opacity = 0.55;
+    scene.add(grid);
+    const ring = new THREE.Mesh(
+      new THREE.RingGeometry(1.55, 1.62, 64),
+      new THREE.MeshBasicMaterial({ color: 0x39e7ff, transparent: true, opacity: 0.55, side: THREE.DoubleSide })
+    );
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.01;
+    scene.add(ring);
+
+    function metal(color, emissive, intensity) {
+      return new THREE.MeshStandardMaterial({
+        color,
+        metalness: 0.86,
+        roughness: 0.24,
+        emissive,
+        emissiveIntensity: intensity
+      });
     }
-    return shader;
-  }
-  var vs = compile(gl.VERTEX_SHADER, [
-    "attribute vec3 aPos;",
-    "attribute vec3 aNrm;",
-    "uniform mat4 uMVP;",
-    "uniform mat4 uModel;",
-    "varying vec3 vN;",
-    "void main(){",
-    "  vN = mat3(uModel[0].xyz, uModel[1].xyz, uModel[2].xyz) * aNrm;",
-    "  gl_Position = uMVP * vec4(aPos, 1.0);",
-    "}"
-  ].join("\n"));
-  var fs = compile(gl.FRAGMENT_SHADER, [
-    "precision mediump float;",
-    "varying vec3 vN;",
-    "uniform vec3 uColor;",
-    "void main(){",
-    "  vec3 n = normalize(vN);",
-    "  float d = max(dot(n, normalize(vec3(0.35, 0.85, 0.4))), 0.0);",
-    "  float rim = pow(1.0 - max(dot(n, vec3(0.0, 0.0, 1.0)), 0.0), 2.0);",
-    "  gl_FragColor = vec4(uColor * (0.22 + 0.78 * d) + vec3(0.15, 0.35, 0.45) * rim * 0.35, 1.0);",
-    "}"
-  ].join("\n"));
-  if (!vs || !fs) {
-    showFallback();
-    return;
-  }
-  var prog = gl.createProgram();
-  gl.attachShader(prog, vs);
-  gl.attachShader(prog, fs);
-  gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-    showFallback();
-    return;
-  }
-  gl.useProgram(prog);
-  var locPos = gl.getAttribLocation(prog, "aPos");
-  var locNrm = gl.getAttribLocation(prog, "aNrm");
-  var locMVP = gl.getUniformLocation(prog, "uMVP");
-  var locModel = gl.getUniformLocation(prog, "uModel");
-  var locColor = gl.getUniformLocation(prog, "uColor");
+    const shellMat = metal(0xb7d7e4, 0x08303a, 0.55);
+    const jointMat = metal(0xd7fbff, 0x1ad4ff, 1.15);
+    const fingerMat = metal(0xffd7a8, 0xff8a3d, 0.7);
+    const tableMat = metal(0x1a2436, 0x0a2030, 0.25);
 
-  var box = new Float32Array([
-    -1,-1,1, 0,0,1,  1,-1,1, 0,0,1,  1,1,1, 0,0,1,  -1,-1,1, 0,0,1,  1,1,1, 0,0,1,  -1,1,1, 0,0,1,
-    -1,-1,-1, 0,0,-1,  -1,1,-1, 0,0,-1,  1,1,-1, 0,0,-1,  -1,-1,-1, 0,0,-1,  1,1,-1, 0,0,-1,  1,-1,-1, 0,0,-1,
-    -1,1,-1, 0,1,0,  -1,1,1, 0,1,0,  1,1,1, 0,1,0,  -1,1,-1, 0,1,0,  1,1,1, 0,1,0,  1,1,-1, 0,1,0,
-    -1,-1,-1, 0,-1,0,  1,-1,-1, 0,-1,0,  1,-1,1, 0,-1,0,  -1,-1,-1, 0,-1,0,  1,-1,1, 0,-1,0,  -1,-1,1, 0,-1,0,
-    1,-1,-1, 1,0,0,  1,1,-1, 1,0,0,  1,1,1, 1,0,0,  1,-1,-1, 1,0,0,  1,1,1, 1,0,0,  1,-1,1, 1,0,0,
-    -1,-1,-1, -1,0,0,  -1,-1,1, -1,0,0,  -1,1,1, -1,0,0,  -1,-1,-1, -1,0,0,  -1,1,1, -1,0,0,  -1,1,-1, -1,0,0
-  ]);
-  var buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, box, gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(locPos);
-  gl.vertexAttribPointer(locPos, 3, gl.FLOAT, false, 24, 0);
-  gl.enableVertexAttribArray(locNrm);
-  gl.vertexAttribPointer(locNrm, 3, gl.FLOAT, false, 24, 12);
-  gl.enable(gl.DEPTH_TEST);
-  gl.enable(gl.CULL_FACE);
-  gl.clearColor(0.04, 0.06, 0.1, 1);
+    function tag(object, part) {
+      object.traverse(function (child) {
+        if (child.isMesh) child.userData.part = part;
+      });
+    }
 
-  function mul(a, b) {
-    var o = new Float32Array(16);
-    for (var c = 0; c < 4; c += 1) {
-      for (var r = 0; r < 4; r += 1) {
-        o[c * 4 + r] = a[r] * b[c * 4] + a[4 + r] * b[c * 4 + 1] + a[8 + r] * b[c * 4 + 2] + a[12 + r] * b[c * 4 + 3];
+    function arm(x, mirror) {
+      const root = new THREE.Group();
+      root.position.set(x, 0, 0);
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.18, 0.14, 28), jointMat);
+      base.position.y = 0.07;
+      root.add(base);
+      const shoulder = new THREE.Group();
+      shoulder.position.y = 0.16;
+      root.add(shoulder);
+      const upperLen = 0.46;
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.07, upperLen, 24), shellMat);
+      upper.position.y = upperLen / 2;
+      shoulder.add(upper);
+      const elbowBall = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 16), jointMat);
+      elbowBall.position.y = upperLen;
+      shoulder.add(elbowBall);
+      const elbow = new THREE.Group();
+      elbow.position.y = upperLen;
+      shoulder.add(elbow);
+      const foreLen = 0.38;
+      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.055, foreLen, 24), shellMat);
+      fore.position.y = foreLen / 2;
+      elbow.add(fore);
+      const wrist = new THREE.Group();
+      wrist.position.y = foreLen;
+      elbow.add(wrist);
+      wrist.add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), jointMat));
+      const palm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.035, 0.05), shellMat);
+      palm.position.y = 0.04;
+      wrist.add(palm);
+      [-1, 1].forEach(function (side) {
+        const finger = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.11, 0.02), fingerMat);
+        finger.position.set(side * 0.045, 0.1, 0);
+        wrist.add(finger);
+      });
+      shoulder.rotation.z = mirror * 0.55;
+      shoulder.rotation.x = 0.45;
+      elbow.rotation.x = -1.15;
+      tag(root, "dual");
+      return { root: root, shoulder: shoulder, elbow: elbow };
+    }
+
+    const left = arm(-0.62, 1);
+    const right = arm(0.62, -1);
+    scene.add(left.root, right.root);
+
+    const table = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.08, 1.35), tableMat);
+    table.position.set(0, -0.02, 0.15);
+    scene.add(table);
+
+    const sample = new THREE.Group();
+    sample.position.set(0, 0.16, 0.28);
+    const gem = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.12, 0),
+      metal(0xff8ab3, 0xff4d88, 0.9)
+    );
+    sample.add(gem);
+    const axes = new THREE.AxesHelper(0.62);
+    axes.position.y = 0.22;
+    sample.add(axes);
+    tag(sample, "pose");
+    scene.add(sample);
+
+    const scanner = new THREE.Group();
+    scanner.position.set(0, 0.95, -0.72);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.12, 0.16), metal(0xd7c7ff, 0x8a6cff, 0.7));
+    scanner.add(body);
+    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.06, 16), jointMat);
+    lens.rotation.x = Math.PI / 2;
+    lens.position.z = 0.1;
+    scanner.add(lens);
+    const cone = new THREE.Mesh(
+      new THREE.ConeGeometry(0.32, 0.95, 28, 1, true),
+      new THREE.MeshBasicMaterial({
+        color: 0x7af0ff,
+        transparent: true,
+        opacity: 0.28,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+      })
+    );
+    cone.rotation.x = Math.PI / 2;
+    cone.position.z = 0.62;
+    cone.scale.set(1.15, 1.25, 1);
+    scanner.add(cone);
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.9, 12), shellMat);
+    pole.position.y = -0.45;
+    scanner.add(pole);
+    tag(scanner, "pose");
+    scene.add(scanner);
+
+    const panel = new THREE.Group();
+    panel.position.set(1.55, 0.55, -0.35);
+    panel.rotation.y = -0.6;
+    const screen = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.7, 0.42),
+      new THREE.MeshStandardMaterial({
+        color: 0x123528,
+        emissive: 0x1ee08a,
+        emissiveIntensity: 0.85,
+        metalness: 0.4,
+        roughness: 0.35,
+        side: THREE.DoubleSide
+      })
+    );
+    panel.add(screen);
+    const bezel = new THREE.Mesh(new THREE.BoxGeometry(0.76, 0.48, 0.04), metal(0x1b2433, 0x063028, 0.3));
+    bezel.position.z = -0.03;
+    panel.add(bezel);
+    tag(panel, "isaac");
+    scene.add(panel);
+
+    const pCount = mobile ? 70 : 160;
+    const pPos = new Float32Array(pCount * 3);
+    for (let i = 0; i < pCount; i += 1) {
+      pPos[i * 3] = (Math.random() - 0.5) * 6;
+      pPos[i * 3 + 1] = Math.random() * 2.4;
+      pPos[i * 3 + 2] = (Math.random() - 0.5) * 6;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+    const sparks = new THREE.Points(
+      pGeo,
+      new THREE.PointsMaterial({ color: 0x9af6ff, size: 0.035, transparent: true, opacity: 0.75, depthWrite: false })
+    );
+    scene.add(sparks);
+
+    const copy = {
+      dual: {
+        zh: "双臂上下料",
+        en: "Dual-arm loading",
+        blurbZh: "视频标题是双臂机器人工厂上下料。简介是空的，没有写方法或数字。",
+        blurbEn: "The video is titled dual-arm factory loading. Its description is empty: no method and no numbers.",
+        href: "projects/dual-arm-loading.html"
+      },
+      pose: {
+        zh: "6D 姿态",
+        en: "6D pose",
+        blurbZh: "深度学习版用 RealSense D415 和 FoundationPose 的 ROS 2 版本。传统版用奥比中光 Gemini 335，特征点匹配加深度法向量。",
+        blurbEn: "The deep version uses a RealSense D415 and FoundationPose on ROS 2. The classical version uses an Orbbec Gemini 335: feature matching plus depth normals.",
+        href: "projects/pose-6d.html"
+      },
+      isaac: {
+        zh: "Isaac Sim + Nav2",
+        en: "Isaac Sim + Nav2",
+        blurbZh: "简介只有一句：在英伟达的 Isaac Sim 里部署 Nav2 导航算法。",
+        blurbEn: "The description is one sentence: Nav2 is deployed inside NVIDIA Isaac Sim.",
+        href: "projects/isaac-nav2.html"
       }
-    }
-    return o;
-  }
-  function id() {
-    return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
-  }
-  function translate(x, y, z) {
-    var m = id();
-    m[12] = x; m[13] = y; m[14] = z;
-    return m;
-  }
-  function scale(x, y, z) {
-    var m = id();
-    m[0] = x; m[5] = y; m[10] = z;
-    return m;
-  }
-  function rotY(a) {
-    var c = Math.cos(a), s = Math.sin(a), m = id();
-    m[0] = c; m[2] = -s; m[8] = s; m[10] = c;
-    return m;
-  }
-  function rotZ(a) {
-    var c = Math.cos(a), s = Math.sin(a), m = id();
-    m[0] = c; m[1] = s; m[4] = -s; m[5] = c;
-    return m;
-  }
-  function perspective(fovy, aspect, near, far) {
-    var f = 1 / Math.tan(fovy / 2);
-    var m = new Float32Array(16);
-    m[0] = f / aspect;
-    m[5] = f;
-    m[10] = (far + near) / (near - far);
-    m[11] = -1;
-    m[14] = (2 * far * near) / (near - far);
-    return m;
-  }
-  function lookAt(eye, target) {
-    var zx = eye[0] - target[0], zy = eye[1] - target[1], zz = eye[2] - target[2];
-    var zl = Math.hypot(zx, zy, zz) || 1;
-    zx /= zl; zy /= zl; zz /= zl;
-    var xx = zy * 0 - zz * 1, xy = zz * 0 - zx * 0, xz = zx * 1 - zy * 0;
-    var xl = Math.hypot(xx, xy, xz) || 1;
-    xx /= xl; xy /= xl; xz /= xl;
-    var yx = zy * xz - zz * xy, yy = zz * xx - zx * xz, yz = zx * xy - zy * xx;
-    return new Float32Array([
-      xx, yx, zx, 0,
-      xy, yy, zy, 0,
-      xz, yz, zz, 0,
-      -(xx * eye[0] + xy * eye[1] + xz * eye[2]),
-      -(yx * eye[0] + yy * eye[1] + yz * eye[2]),
-      -(zx * eye[0] + zy * eye[1] + zz * eye[2]),
-      1
-    ]);
-  }
-  function invert(m) {
-    var a = m, inv = new Float32Array(16);
-    inv[0] = a[5]*a[10]*a[15] - a[5]*a[11]*a[14] - a[9]*a[6]*a[15] + a[9]*a[7]*a[14] + a[13]*a[6]*a[11] - a[13]*a[7]*a[10];
-    inv[4] = -a[4]*a[10]*a[15] + a[4]*a[11]*a[14] + a[8]*a[6]*a[15] - a[8]*a[7]*a[14] - a[12]*a[6]*a[11] + a[12]*a[7]*a[10];
-    inv[8] = a[4]*a[9]*a[15] - a[4]*a[11]*a[13] - a[8]*a[5]*a[15] + a[8]*a[7]*a[13] + a[12]*a[5]*a[11] - a[12]*a[7]*a[9];
-    inv[12] = -a[4]*a[9]*a[14] + a[4]*a[10]*a[13] + a[8]*a[5]*a[14] - a[8]*a[6]*a[13] - a[12]*a[5]*a[10] + a[12]*a[6]*a[9];
-    inv[1] = -a[1]*a[10]*a[15] + a[1]*a[11]*a[14] + a[9]*a[2]*a[15] - a[9]*a[3]*a[14] - a[13]*a[2]*a[11] + a[13]*a[3]*a[10];
-    inv[5] = a[0]*a[10]*a[15] - a[0]*a[11]*a[14] - a[8]*a[2]*a[15] + a[8]*a[3]*a[14] + a[12]*a[2]*a[11] - a[12]*a[3]*a[10];
-    inv[9] = -a[0]*a[9]*a[15] + a[0]*a[11]*a[13] + a[8]*a[1]*a[15] - a[8]*a[3]*a[13] - a[12]*a[1]*a[11] + a[12]*a[3]*a[9];
-    inv[13] = a[0]*a[9]*a[14] - a[0]*a[10]*a[13] - a[8]*a[1]*a[14] + a[8]*a[2]*a[13] + a[12]*a[1]*a[10] - a[12]*a[2]*a[9];
-    inv[2] = a[1]*a[6]*a[15] - a[1]*a[7]*a[14] - a[5]*a[2]*a[15] + a[5]*a[3]*a[14] + a[13]*a[2]*a[7] - a[13]*a[3]*a[6];
-    inv[6] = -a[0]*a[6]*a[15] + a[0]*a[7]*a[14] + a[4]*a[2]*a[15] - a[4]*a[3]*a[14] - a[12]*a[2]*a[7] + a[12]*a[3]*a[6];
-    inv[10] = a[0]*a[5]*a[15] - a[0]*a[7]*a[13] - a[4]*a[1]*a[15] + a[4]*a[3]*a[13] + a[12]*a[1]*a[7] - a[12]*a[3]*a[5];
-    inv[14] = -a[0]*a[5]*a[14] + a[0]*a[6]*a[13] + a[4]*a[1]*a[14] - a[4]*a[2]*a[13] - a[12]*a[1]*a[6] + a[12]*a[2]*a[5];
-    inv[3] = -a[1]*a[6]*a[11] + a[1]*a[7]*a[10] + a[5]*a[2]*a[11] - a[5]*a[3]*a[10] - a[9]*a[2]*a[7] + a[9]*a[3]*a[6];
-    inv[7] = a[0]*a[6]*a[11] - a[0]*a[7]*a[10] - a[4]*a[2]*a[11] + a[4]*a[3]*a[10] + a[8]*a[2]*a[7] - a[8]*a[3]*a[6];
-    inv[11] = -a[0]*a[5]*a[11] + a[0]*a[7]*a[9] + a[4]*a[1]*a[11] - a[4]*a[3]*a[9] - a[8]*a[1]*a[7] + a[8]*a[3]*a[5];
-    inv[15] = a[0]*a[5]*a[10] - a[0]*a[6]*a[9] - a[4]*a[1]*a[10] + a[4]*a[2]*a[9] + a[8]*a[1]*a[6] - a[8]*a[2]*a[5];
-    var det = a[0]*inv[0] + a[1]*inv[4] + a[2]*inv[8] + a[3]*inv[12];
-    if (!det) return id();
-    for (var i = 0; i < 16; i += 1) inv[i] /= det;
-    return inv;
-  }
-  function applyPoint(m, p) {
-    var x = m[0]*p[0] + m[4]*p[1] + m[8]*p[2] + m[12];
-    var y = m[1]*p[0] + m[5]*p[1] + m[9]*p[2] + m[13];
-    var z = m[2]*p[0] + m[6]*p[1] + m[10]*p[2] + m[14];
-    var w = m[3]*p[0] + m[7]*p[1] + m[11]*p[2] + m[15];
-    return [x / w, y / w, z / w];
-  }
+    };
 
-  function arm(side, color) {
-    var s = side;
-    return [
-      [s * 0.85, -0.35, 0.15, 0.16, 0.28, 0.16, color],
-      [s * 0.85, 0.05, 0.15, 0.1, 0.42, 0.1, color],
-      [s * 1.15, 0.28, 0.35, 0.34, 0.08, 0.08, color],
-      [s * 1.4, 0.12, 0.55, 0.08, 0.22, 0.08, color],
-      [s * 1.4, 0.02, 0.68, 0.12, 0.05, 0.16, [0.97, 0.9, 0.65]]
-    ];
-  }
-  var cyan = [0.35, 0.86, 0.95];
-  var orange = [1, 0.62, 0.32];
-  var parts = [
-    {
-      id: "dual",
-      href: "projects/dual-arm-loading.html",
-      zh: "双臂上下料",
-      en: "Dual-arm loading",
-      blurbZh: "视频标题是双臂机器人工厂上下料。简介是空的，没有写方法或数字。",
-      blurbEn: "The video is titled dual-arm factory loading. Its description is empty, with no method and no numbers.",
-      boxes: arm(-1, cyan).concat(arm(1, orange)).concat([
-        [0, -0.72, 0.2, 1.7, 0.08, 0.7, [0.12, 0.16, 0.24]]
-      ])
-    },
-    {
-      id: "pose",
-      href: "projects/pose-6d.html",
-      zh: "6D 姿态",
-      en: "6D pose",
-      blurbZh: "深度学习版用 RealSense D415 和 FoundationPose 的 ROS 2 版本。传统版用奥比中光 Gemini 335，特征点匹配加深度法向量。",
-      blurbEn: "The deep version uses a RealSense D415 and FoundationPose on ROS 2. The classical version uses an Orbbec Gemini 335: feature matching plus depth normals.",
-      boxes: [
-        [0, -0.15, -0.85, 0.08, 0.55, 0.08, [0.75, 0.55, 0.95]],
-        [0, 0.2, -0.85, 0.22, 0.14, 0.12, [0.95, 0.45, 0.62]],
-        [0, 0.2, -0.72, 0.08, 0.08, 0.06, [0.9, 0.95, 1]]
-      ]
-    },
-    {
-      id: "isaac",
-      href: "projects/isaac-nav2.html",
-      zh: "Isaac Sim + Nav2",
-      en: "Isaac Sim + Nav2",
-      blurbZh: "简介只有一句：在英伟达的 Isaac Sim 里部署 Nav2 导航算法。",
-      blurbEn: "The description is one sentence: Nav2 is deployed inside NVIDIA Isaac Sim.",
-      boxes: [
-        [0, 0.15, -1.35, 0.9, 0.52, 0.05, [0.25, 0.85, 0.55]],
-        [0, -0.18, -1.35, 0.1, 0.28, 0.08, [0.2, 0.45, 0.4]]
-      ]
+    function paintCard(part) {
+      if (!card) return;
+      const info = copy[part];
+      if (!info) return;
+      card.textContent = "";
+      const strong = document.createElement("strong");
+      strong.textContent = tr(info.zh, info.en);
+      const text = document.createTextNode(" " + tr(info.blurbZh, info.blurbEn) + " ");
+      const link = document.createElement("a");
+      link.href = info.href;
+      link.textContent = tr("打开项目笔记", "Open the project note");
+      card.appendChild(strong);
+      card.appendChild(text);
+      card.appendChild(link);
     }
-  ];
-  var floor = [0, -0.9, 0, 3.4, 0.08, 2.3, [0.08, 0.1, 0.16]];
 
-  var pick = [];
-  function modelOf(box) {
-    return mul(translate(box[0], box[1], box[2]), scale(box[3], box[4], box[5]));
-  }
-  function remember(part, box) {
-    var m = modelOf(box);
-    var min = [Infinity, Infinity, Infinity];
-    var max = [-Infinity, -Infinity, -Infinity];
-    [[-1,-1,-1],[1,-1,-1],[-1,1,-1],[1,1,-1],[-1,-1,1],[1,-1,1],[-1,1,1],[1,1,1]].forEach(function (c) {
-      var p = applyPoint(m, c.concat([1]));
-      for (var i = 0; i < 3; i += 1) {
-        min[i] = Math.min(min[i], p[i]);
-        max[i] = Math.max(max[i], p[i]);
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let hovered = null;
+    const baseEmissive = new Map();
+    scene.traverse(function (obj) {
+      if (obj.isMesh && obj.material && obj.material.emissive) {
+        baseEmissive.set(obj.material, obj.material.emissiveIntensity);
       }
     });
-    pick.push({ part: part, min: min, max: max });
-  }
-  parts.forEach(function (part) {
-    part.boxes.forEach(function (box) { remember(part, box); });
-  });
 
-  var theta = 0.7;
-  var phi = 1.05;
-  var radius = 5.4;
-  var dragging = false;
-  var moved = 0;
-  var lastX = 0;
-  var lastY = 0;
-  var visible = false;
-  var raf = 0;
-  var running = true;
-
-  function resize() {
-    var rect = canvas.getBoundingClientRect();
-    var dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
-    var w = Math.max(2, Math.floor(rect.width * dpr));
-    var h = Math.max(2, Math.floor(rect.height * dpr));
-    if (canvas.width !== w || canvas.height !== h) {
-      canvas.width = w;
-      canvas.height = h;
+    function setHover(part) {
+      if (hovered === part) return;
+      hovered = part;
+      canvas.style.cursor = part ? "pointer" : "grab";
+      scene.traverse(function (obj) {
+        if (!obj.isMesh || !obj.material || !obj.material.emissive) return;
+        const mine = obj.userData.part;
+        const base = baseEmissive.get(obj.material) || 0.4;
+        obj.material.emissiveIntensity = part && mine === part ? base + 0.9 : base;
+      });
     }
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
 
-  function draw() {
-    resize();
-    var aspect = canvas.width / canvas.height;
-    var eye = [
-      radius * Math.sin(phi) * Math.sin(theta),
-      radius * Math.cos(phi) + 0.2,
-      radius * Math.sin(phi) * Math.cos(theta)
-    ];
-    var view = lookAt(eye, [0, -0.05, 0]);
-    var proj = perspective(0.9, aspect, 0.1, 40);
-    var vp = mul(proj, view);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    function paint(box) {
-      var model = modelOf(box);
-      gl.uniformMatrix4fv(locModel, false, model);
-      gl.uniformMatrix4fv(locMVP, false, mul(vp, model));
-      gl.uniform3fv(locColor, box[6]);
-      gl.drawArrays(gl.TRIANGLES, 0, 36);
-    }
-    paint(floor);
-    parts.forEach(function (part) { part.boxes.forEach(paint); });
-  }
-
-  function loop() {
-    raf = 0;
-    if (!running || !visible) return;
-    if (!dragging && !reduce) theta += 0.004;
-    draw();
-    if (!reduce) raf = window.requestAnimationFrame(loop);
-  }
-  function start() {
-    if (raf || !running || !visible) return;
-    if (reduce) draw();
-    else raf = window.requestAnimationFrame(loop);
-  }
-  function stop() {
-    if (raf) window.cancelAnimationFrame(raf);
-    raf = 0;
-  }
-
-  function hit(event) {
-    var rect = canvas.getBoundingClientRect();
-    var x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    var y = 1 - ((event.clientY - rect.top) / rect.height) * 2;
-    var eye = [
-      radius * Math.sin(phi) * Math.sin(theta),
-      radius * Math.cos(phi) + 0.2,
-      radius * Math.sin(phi) * Math.cos(theta)
-    ];
-    var view = lookAt(eye, [0, -0.05, 0]);
-    var proj = perspective(0.9, canvas.width / canvas.height, 0.1, 40);
-    var inv = invert(mul(proj, view));
-    var near = applyPoint(inv, [x, y, -1, 1]);
-    var far = applyPoint(inv, [x, y, 1, 1]);
-    var dir = [far[0] - near[0], far[1] - near[1], far[2] - near[2]];
-    var best = null;
-    var bestT = Infinity;
-    pick.forEach(function (item) {
-      var tmin = -Infinity;
-      var tmax = Infinity;
-      for (var i = 0; i < 3; i += 1) {
-        if (Math.abs(dir[i]) < 1e-8) {
-          if (near[i] < item.min[i] || near[i] > item.max[i]) return;
-        } else {
-          var t1 = (item.min[i] - near[i]) / dir[i];
-          var t2 = (item.max[i] - near[i]) / dir[i];
-          if (t1 > t2) { var tmp = t1; t1 = t2; t2 = tmp; }
-          tmin = Math.max(tmin, t1);
-          tmax = Math.min(tmax, t2);
-          if (tmax < tmin) return;
+    function pick(event) {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObjects(scene.children, true);
+      for (let i = 0; i < hits.length; i += 1) {
+        let obj = hits[i].object;
+        while (obj) {
+          if (obj.userData && obj.userData.part) return obj.userData.part;
+          obj = obj.parent;
         }
       }
-      var t = tmin > 0 ? tmin : tmax;
-      if (t > 0 && t < bestT) { bestT = t; best = item.part; }
-    });
-    return best;
-  }
-
-  function showPart(part) {
-    if (!card || !part) return;
-    card.textContent = "";
-    var strong = document.createElement("strong");
-    strong.textContent = tr(part.zh, part.en);
-    var text = document.createElement("span");
-    text.textContent = " " + tr(part.blurbZh, part.blurbEn) + " ";
-    var link = document.createElement("a");
-    link.href = part.href;
-    link.textContent = tr("打开项目笔记", "Open the project note");
-    card.appendChild(strong);
-    card.appendChild(text);
-    card.appendChild(link);
-  }
-
-  canvas.addEventListener("pointerdown", function (event) {
-    dragging = true;
-    moved = 0;
-    lastX = event.clientX;
-    lastY = event.clientY;
-    canvas.setPointerCapture(event.pointerId);
-  });
-  canvas.addEventListener("pointermove", function (event) {
-    if (!dragging) return;
-    var dx = event.clientX - lastX;
-    var dy = event.clientY - lastY;
-    moved += Math.abs(dx) + Math.abs(dy);
-    lastX = event.clientX;
-    lastY = event.clientY;
-    theta -= dx * 0.01;
-    phi = Math.max(0.35, Math.min(1.45, phi - dy * 0.008));
-    if (reduce) draw();
-  });
-  function endDrag(event) {
-    if (!dragging) return;
-    dragging = false;
-    if (moved < 6) showPart(hit(event));
-  }
-  canvas.addEventListener("pointerup", endDrag);
-  canvas.addEventListener("pointercancel", function () { dragging = false; });
-
-  document.addEventListener("visibilitychange", function () {
-    running = !document.hidden;
-    if (running) start();
-    else stop();
-  });
-  document.addEventListener("site-lang", function () {
-    if (card && !card.querySelector("a")) {
-      card.textContent = tr("拖动环视。点机械臂、相机，或绿色的仿真板。", "Drag to look around. Click an arm, the camera, or the green panel.");
+      return null;
     }
-  });
-  if ("IntersectionObserver" in window) {
-    var observer = new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      if (visible) start();
+
+    let pressX = 0;
+    let pressY = 0;
+    canvas.addEventListener("pointerdown", function (event) {
+      pressX = event.clientX;
+      pressY = event.clientY;
+      controls.autoRotate = false;
+    });
+    canvas.addEventListener("pointermove", function (event) {
+      setHover(pick(event));
+    });
+    canvas.addEventListener("pointerup", function (event) {
+      const dragged = Math.abs(event.clientX - pressX) + Math.abs(event.clientY - pressY) > 6;
+      if (!dragged) {
+        const part = pick(event);
+        if (part) paintCard(part);
+      }
+      if (!reduce) controls.autoRotate = true;
+    });
+    canvas.addEventListener("pointerleave", function () { setHover(null); });
+
+    const clock = new THREE.Clock();
+    let visible = false;
+    let raf = 0;
+    let running = !document.hidden;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(2, rect.width);
+      const h = Math.max(2, rect.height);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    }
+
+    function frame() {
+      raf = 0;
+      if (!running || !visible) return;
+      const t = clock.getElapsedTime();
+      if (!reduce) {
+        left.shoulder.rotation.x = 0.4 + Math.sin(t * 0.7) * 0.18;
+        left.elbow.rotation.x = -1.1 + Math.sin(t * 0.7 + 0.8) * 0.22;
+        right.shoulder.rotation.x = 0.4 + Math.sin(t * 0.7 + Math.PI) * 0.18;
+        right.elbow.rotation.x = -1.1 + Math.sin(t * 0.7 + Math.PI + 0.8) * 0.22;
+        scanner.rotation.y = Math.sin(t * 0.55) * 0.45;
+        sample.position.y = 0.16 + Math.sin(t * 1.2) * 0.03;
+        const arr = sparks.geometry.attributes.position.array;
+        for (let i = 1; i < arr.length; i += 3) {
+          arr[i] += 0.004;
+          if (arr[i] > 2.6) arr[i] = 0;
+        }
+        sparks.geometry.attributes.position.needsUpdate = true;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+      raf = window.requestAnimationFrame(frame);
+    }
+    function start() {
+      if (!raf && running && visible) raf = window.requestAnimationFrame(frame);
+    }
+    function stop() {
+      if (raf) window.cancelAnimationFrame(raf);
+      raf = 0;
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      running = !document.hidden;
+      if (running) start();
       else stop();
-    }, { threshold: 0.05 });
-    observer.observe(stage);
-  } else {
-    visible = true;
-    start();
+    });
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible) start();
+        else stop();
+      }, { threshold: 0.08 });
+      observer.observe(stage);
+    } else {
+      visible = true;
+      start();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+    if (reduce) {
+      controls.autoRotate = false;
+      renderer.render(scene, camera);
+    }
+
+    document.addEventListener("site-lang", function () {
+      if (card && !card.querySelector("a")) {
+        card.textContent = tr(
+          "拖动环视。点机械臂、相机，或绿色的仿真板。",
+          "Drag to look around. Click an arm, the camera, or the green panel."
+        );
+      }
+    });
   }
-  window.addEventListener("resize", function () { if (reduce) draw(); });
-})();
+}
