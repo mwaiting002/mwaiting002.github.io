@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title data-en="Notes on 6D pose estimation · muxintian">6D 姿态估计笔记 · muxintian</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-en="Skip to content">跳到主要内容</a>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="../index.html">muxintian</a>
+      <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
+        <a href="../index.html#about" data-en="About">关于</a>
+        <a href="../index.html#notes" data-en="Notes">笔记</a>
+        <a href="../index.html#work" data-en="Videos">作品</a>
+        <a href="../index.html#contact" data-en="Contact">联系</a>
+      </nav>
+      <div class="tools">
+        <button class="tool-btn" id="lang-toggle" type="button">EN</button>
+        <button class="tool-btn" id="weather-toggle" type="button" aria-label="切换天气">☀</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-label="切换日间">☀</button>
+        <button class="tool-btn" id="term-toggle" type="button" aria-label="打开终端" data-en-aria="Open terminal">&gt;_</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">打开菜单</span><span class="burger" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <main id="main" class="project">
+    <article class="wrap note-body">
+      <a class="back" href="../index.html#notes" data-en="← All notes">← 全部笔记</a>
+      <p class="draft" data-en="Draft. The author will refine this note.">草稿，作者之后会再改一版。</p>
+      <p class="eyebrow" lang="en">Notes</p>
+      <h1 data-en="Notes on 6D pose estimation">6D 姿态估计笔记</h1>
+      <p class="note"><time datetime="2026-11-10">2026-11-10</time> · <span data-en="About 7 min">约 7 分钟</span></p>
+      <h2 data-en="Which videos this note follows">这条笔记对应哪几条视频</h2>
+<p data-en="Two videos from the same day are about 6D pose. The deep-learning one uses a RealSense D415 and the ROS 2 build of FoundationPose. Its CAD model was made with Tencent Hunyuan and then adjusted in a modeling tool. The classical one uses an Orbbec Gemini 335, with feature matching plus depth normals. A later video is titled “6D姿态视觉定位+Moveit2规划”; its description only says Ubuntu 22.04 and ROS 2 Humble.">公开视频里和 6D 姿态直接相关的是同一天的两条：深度学习版用 RealSense D415，以及 FoundationPose 的 ROS 2 版本，CAD 用腾讯混元建模后再用建模工具微调。传统版用奥比中光 Gemini 335，方法是特征点匹配加深度法向量。之后还有一条标题为「6D姿态视觉定位+Moveit2规划」，简介只写了 Ubuntu 22.04 和 ROS 2 Humble。</p>
+<p data-en="The checklist below is general practice. It is not a measurement from those videos.">下面是通用检查清单，不是那几条视频的测量结果。</p>
+<h2 data-en="Write the camera model down">先把相机模型写下来</h2>
+<ul><li data-en="Keep fx, fy, cx, cy and distortion for the color camera. Do not reuse intrinsics from another resolution.">彩色相机的内参（fx、fy、cx、cy）和畸变，不要拿别的分辨率的参数硬套。</li><li data-en="The D415 and the Gemini 335 are different cameras. Store intrinsics, depth scale, and extrinsics separately.">RealSense D415 和 Gemini 335 是两台不同的相机。各自的内参、深度尺度、外参都要分开保存。</li><li data-en="If you project a CAD model or draw axes, decide whether you are using color intrinsics or depth intrinsics. Do not mix them.">如果后面要投影 CAD 或画坐标轴，确认用的是彩色内参还是深度内参，二者不要混。</li></ul>
+<h2 data-en="Align depth with color">深度和彩色要对齐</h2>
+<p data-en="The depth image and the color image often do not share a pixel grid. Feature matching or drawing a pose onto the color image will miss the object if you skip alignment.">深度图和彩色图往往不在同一个像素网格上。没对齐就去做特征点或把姿态画回彩色图，框和物体会对不齐。</p>
+<ul><li data-en="Record whether alignment happens inside the camera SDK or with your own extrinsics.">记录对齐是在相机 SDK 里做的，还是自己用外参做的。</li><li data-en="After alignment, check that depth along the object edge still sits inside the color silhouette.">对齐之后再检查：物体边缘的深度是不是还落在彩色轮廓里面。</li><li data-en="Holes, flying pixels, and glare move both normals and feature depth. The classical video names “feature matching + depth normals”, and normals are sensitive to depth noise.">空洞、飞点和反光会让法向量和特征深度一起漂。传统版写的是「特征点匹配 + 深度法向量」，法向量对深度噪声很敏感。</li></ul>
+<h2 data-en="Name the coordinate frame">坐标系要说人话</h2>
+<p data-en="A 6D pose is a rotation and a translation, but relative to which frame: camera, CAD, or robot base.">6D 姿态是旋转加平移，但它相对谁，必须写清楚：相机坐标系、物体 CAD 坐标系，还是机器人基座。</p>
+<ul><li data-en="After Hunyuan modeling and a manual tweak, the CAD origin may no longer be the geometric center you expect.">CAD 用混元建完再微调之后，原点不一定还在你以为的几何中心。</li><li data-en="Methods such as FoundationPose usually report the object in the camera frame. A robot arm still needs the camera-to-base extrinsic.">FoundationPose 这类方法输出的通常是物体在相机下的位姿。要给机械臂用，还得再乘相机到基座的外参。</li><li data-en="Check whether rotation is a matrix, a quaternion, or Euler angles, and the multiply order, every time you change libraries.">旋转是旋转矩阵、四元数还是欧拉角，以及乘法顺序，换一次库就核对一次。</li></ul>
+<h2 data-en="Before planning">接到规划之前</h2>
+<p data-en="The MoveIt 2 video does not publish a calibration result or an error. Before sending a pose to a planner, write the chain:">那条 MoveIt 2 视频的简介没有写标定结果或误差。在把姿态送进规划之前，至少核对：</p>
+<pre><code><span class="tok-k">camera_frame</span> -&gt; <span class="tok-k">object_frame</span> -&gt; <span class="tok-k">base_frame</span></code></pre>
+<p data-en="A pose that looks right in the camera can still be wrong in the base. One flipped axis is enough to miss the grasp.">物体在相机里看起来对了，不代表在基座里也是对的。差一个轴的方向，抓取就会反。</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="wrap"><p>muxintian · Mwaitwait</p><p data-egg-count>彩蛋 0/10</p></div></footer>
+  <script src="../i18n.js"></script>
+  <script src="../script.js"></script>
+  <script defer src="../extras.js"></script>
+</body>
+</html>

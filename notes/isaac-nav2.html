@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title data-en="Notes on Nav2 inside Isaac Sim · muxintian">在 Isaac Sim 里部署 Nav2 · muxintian</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-en="Skip to content">跳到主要内容</a>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="../index.html">muxintian</a>
+      <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
+        <a href="../index.html#about" data-en="About">关于</a>
+        <a href="../index.html#notes" data-en="Notes">笔记</a>
+        <a href="../index.html#work" data-en="Videos">作品</a>
+        <a href="../index.html#contact" data-en="Contact">联系</a>
+      </nav>
+      <div class="tools">
+        <button class="tool-btn" id="lang-toggle" type="button">EN</button>
+        <button class="tool-btn" id="weather-toggle" type="button" aria-label="切换天气">☀</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-label="切换日间">☀</button>
+        <button class="tool-btn" id="term-toggle" type="button" aria-label="打开终端" data-en-aria="Open terminal">&gt;_</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">打开菜单</span><span class="burger" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <main id="main" class="project">
+    <article class="wrap note-body">
+      <a class="back" href="../index.html#notes" data-en="← All notes">← 全部笔记</a>
+      <p class="draft" data-en="Draft. The author will refine this note.">草稿，作者之后会再改一版。</p>
+      <p class="eyebrow" lang="en">Notes</p>
+      <h1 data-en="Notes on Nav2 inside Isaac Sim">在 Isaac Sim 里部署 Nav2</h1>
+      <p class="note"><time datetime="2026-11-10">2026-11-10</time> · <span data-en="About 6 min">约 6 分钟</span></p>
+      <h2 data-en="Which video this note follows">这条笔记对应哪条视频</h2>
+<p data-en="The video “Isaac sim部署nav2实现自主导航” says that Nav2 is deployed inside NVIDIA Isaac Sim. It does not name the robot, the map, costmap parameters, or a success rate.">「Isaac sim部署nav2实现自主导航」的简介是：在英伟达的 Isaac Sim 里面部署 Nav2 导航算法。没有写机器人型号、地图、代价地图参数或成功率。</p>
+<p data-en="The checklist below is general practice for putting Nav2 in simulation. It is not a dump of that video’s configuration.">下面是把 Nav2 放进仿真时常用的检查清单，不是这条视频的配置记录。</p>
+<h2 data-en="Draw the TF tree first">先画 TF 树</h2>
+<p data-en="Navigation needs a world or map frame, odometry, the robot base, and the lidar or depth frame. Names vary. The parent-child links should not.">导航至少要分清这些坐标系：仿真世界、地图、里程计、机器人基座、激光或深度。名字可以不同，但父子关系要唯一。</p>
+<pre><code><span class="tok-k">map</span> -&gt; <span class="tok-k">odom</span> -&gt; <span class="tok-k">base_link</span> -&gt; sensors</code></pre>
+<ul><li data-en="`map` to `odom` usually comes from localization and is allowed to jump.">`map` 到 `odom` 通常由定位给出，会跳。</li><li data-en="`odom` to `base_link` should be continuous. Do not let another node publish over it.">`odom` 到 `base_link` 应该连续，不要再被别的节点覆盖。</li><li data-en="A flipped sensor frame puts obstacles on the wrong side of the robot in the costmap.">传感器帧如果装反，代价地图里的障碍会转到车体另一侧。</li></ul>
+<p data-en="In Isaac Sim the USD stage up-axis and the ROS frame are not automatically the same. Check the bridge instead of trusting “it looks forward”.">在 Isaac Sim 里，USD 舞台的上轴和 ROS 的坐标系不一定一致。导出或桥接时核对一次，不要靠“看起来朝前”。</p>
+<h2 data-en="Write down only the costmap fields you changed">代价地图只写你改过的项</h2>
+<p data-en="Nav2 has many costmap fields. In simulation, match these to the scene instead of pasting someone else’s yaml:">Nav2 的代价地图参数很多。仿真里先确认这几件和场景匹配，而不是照抄一份别人的 yaml：</p>
+<ul><li data-en="Footprint or robot radius, and whether it fits the gaps you built.">机器人足迹或半径，能不能穿过你摆的窄门。</li><li data-en="Whether inflation eats the free space.">膨胀层会不会把可行走区域吃光。</li><li data-en="Which simulated sensor feeds obstacles, and whether its rate and range make sense.">障碍来自哪种仿真传感器，更新频率和最大距离是不是合理。</li><li data-en="Whether the global and local maps share one frame.">全局地图和局部地图是不是在看同一个坐标系。</li></ul>
+<p data-en="The video does not publish those numbers. A reproduction has to be filled in against the scene. The title does not imply them.">视频没有公布这些数值。真要复现，得自己对着场景填，不能从标题反推。</p>
+<h2 data-en="Sim to real">仿真到真机</h2>
+<p data-en="A path that works in simulation only shows that the pipeline runs on the simulator clock and the simulated sensors. On a real robot you still usually meet:">仿真里能走通，只说明这条管线在仿真时钟和仿真传感器下能跑。换到真机时通常还会差：</p>
+<ul><li data-en="Latency and dropped scans, so the planner sees a stale cloud.">延迟和丢帧，规划用的是过时的扫描。</li><li data-en="Wheel slip, so odometry is more optimistic than in sim.">轮子打滑，里程计比仿真乐观。</li><li data-en="Friction and collision meshes that do not match the robot.">地面摩擦、碰撞体和真实机器人不一致。</li><li data-en="Cables and shelf legs that the simulation never had, and that show up in the real costmap.">仿真里忽略的线缆、货架腿，在真机代价地图里会出现。</li></ul>
+<p data-en="Treat the video as a demo that Nav2 is connected to Isaac Sim, not as a real-robot navigation score.">所以这条视频适合当作“Nav2 已经接到 Isaac Sim”的演示，不要把它读成真机导航指标。</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="wrap"><p>muxintian · Mwaitwait</p><p data-egg-count>彩蛋 0/10</p></div></footer>
+  <script src="../i18n.js"></script>
+  <script src="../script.js"></script>
+  <script defer src="../extras.js"></script>
+</body>
+</html>

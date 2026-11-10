@@ -37,10 +37,17 @@
       <p><time datetime="2025-12-23">2025.12.23</time></p>
       <div class="project-grid">
         <figure class="demo-frame">
-          <img src="../assets/demos/pose-6d.gif" width="480" height="270" alt="深度学习版 6D 姿态视频封面的缓慢推移" data-en-alt="Slow pan across the cover of the deep-learning 6D pose video">
+          <video width="480" height="270" autoplay muted loop playsinline poster="../assets/covers-styled/07-BV1unBNBZEmL.webp">
+            <source src="../assets/demos/pose-6d.webm" type="video/webm">
+            <source src="../assets/demos/pose-6d.mp4" type="video/mp4">
+          </video>
         </figure>
         <figure class="still-frame">
-          <img src="../assets/covers-styled/07-BV1unBNBZEmL.png" width="1280" height="720" alt="深度学习版封面" data-en-alt="Deep-learning video cover">
+          <picture>
+            <source srcset="../assets/covers-styled/07-BV1unBNBZEmL.avif" type="image/avif">
+            <source srcset="../assets/covers-styled/07-BV1unBNBZEmL.webp" type="image/webp">
+            <img src="../assets/covers-styled/07-BV1unBNBZEmL.png" width="1280" height="720" alt="深度学习版封面" data-en-alt="Deep-learning video cover" loading="lazy" decoding="async">
+          </picture>
         </figure>
       </div>
       <p class="note" data-en="The loop is a slow pan of the deep-learning video's cover, not a measured demo. Both full recordings are on Bilibili.">循环画面是深度学习版封面的缓慢推移，不是量化演示。两条原片都在 Bilibili。</p>

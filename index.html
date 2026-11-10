@@ -16,8 +16,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <title data-en="muxintian · Embodied AI and computer vision">muxintian · 具身智能与计算机视觉</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" as="image" href="assets/hero.png">
-  <link rel="preload" as="image" href="assets/avatar-styled.png">
+  <link rel="preload" as="image" href="assets/hero.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/avatar-styled.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
   {
@@ -53,6 +53,7 @@
         <a href="#skills" data-en="Skills">技能</a>
         <a href="#bench" data-en="Bench">场景</a>
         <a href="#work" data-en="Videos">作品</a>
+        <a href="#notes" data-en="Notes">笔记</a>
         <a href="#lab" data-en="Lab">实验室</a>
         <a href="#timeline" data-en="Timeline">时间线</a>
         <a href="#contact" data-en="Contact">联系</a>
@@ -73,7 +74,11 @@
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-media">
-        <img src="assets/hero.png" alt="" width="1600" height="600" fetchpriority="high">
+        <picture>
+          <source srcset="assets/hero.avif" type="image/avif">
+          <source srcset="assets/hero.webp" type="image/webp">
+          <img src="assets/hero.png" alt="" width="1600" height="600" fetchpriority="high">
+        </picture>
         <div class="scan" aria-hidden="true"></div>
       </div>
       <div class="orb orb-a" aria-hidden="true"></div>
@@ -81,7 +86,11 @@
       <div class="wrap hero-grid">
         <div class="avatar-wrap">
           <button class="avatar-btn" id="avatar-btn" type="button" aria-label="播放一个小动画" data-en-aria="Play a little animation">
-            <img class="avatar" src="assets/avatar-styled.png" width="800" height="800" alt="muxintian 的头像：侧影举起手机拍摄烟花，外圈是彩色光环" data-en-alt="muxintian's portrait: a silhouette photographing fireworks, with a colored ring" fetchpriority="high">
+            <picture>
+              <source srcset="assets/avatar-styled.avif" type="image/avif">
+              <source srcset="assets/avatar-styled.webp" type="image/webp">
+              <img class="avatar" src="assets/avatar-styled.png" width="800" height="800" alt="muxintian 的头像：侧影举起手机拍摄烟花，外圈是彩色光环" data-en-alt="muxintian's portrait: a silhouette photographing fireworks, with a colored ring" fetchpriority="high">
+            </picture>
           </button>
           <span class="sticker" data-en="boop">点一下</span>
         </div>
@@ -203,7 +212,7 @@
           <article class="card" id="v-BV1NobG69E3H" data-tags="dual">
             <a href="projects/dual-arm-loading.html">
               <div class="thumb">
-                <img src="assets/covers-styled/01-BV1NobG69E3H.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/01-BV1NobG69E3H.avif" type="image/avif"><source srcset="assets/covers-styled/01-BV1NobG69E3H.webp" type="image/webp"><img src="assets/covers-styled/01-BV1NobG69E3H.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -219,7 +228,7 @@
           <article class="card" id="v-BV1NobG69EbP" data-tags="arm">
             <a href="https://www.bilibili.com/video/BV1NobG69EbP" target="_blank" rel="noopener noreferrer">
               <div class="thumb">
-                <img src="assets/covers-styled/02-BV1NobG69EbP.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/02-BV1NobG69EbP.avif" type="image/avif"><source srcset="assets/covers-styled/02-BV1NobG69EbP.webp" type="image/webp"><img src="assets/covers-styled/02-BV1NobG69EbP.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -235,7 +244,7 @@
           <article class="card" id="v-BV1sfbG6pEsJ" data-tags="dual mobile nav vision">
             <a href="https://www.bilibili.com/video/BV1sfbG6pEsJ" target="_blank" rel="noopener noreferrer">
               <div class="thumb">
-                <img src="assets/covers-styled/03-BV1sfbG6pEsJ.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/03-BV1sfbG6pEsJ.avif" type="image/avif"><source srcset="assets/covers-styled/03-BV1sfbG6pEsJ.webp" type="image/webp"><img src="assets/covers-styled/03-BV1sfbG6pEsJ.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -252,7 +261,7 @@
           <article class="card" id="v-BV1JTbe6qEMX" data-tags="isaac nav2 sim">
             <a href="projects/isaac-nav2.html">
               <div class="thumb">
-                <img src="assets/covers-styled/04-BV1JTbe6qEMX.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/04-BV1JTbe6qEMX.avif" type="image/avif"><source srcset="assets/covers-styled/04-BV1JTbe6qEMX.webp" type="image/webp"><img src="assets/covers-styled/04-BV1JTbe6qEMX.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -269,7 +278,7 @@
           <article class="card" id="v-BV1T5NFzrEjh" data-tags="openclaw llm moveit ros2">
             <a href="https://www.bilibili.com/video/BV1T5NFzrEjh" target="_blank" rel="noopener noreferrer">
               <div class="thumb">
-                <img src="assets/covers-styled/05-BV1T5NFzrEjh.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/05-BV1T5NFzrEjh.avif" type="image/avif"><source srcset="assets/covers-styled/05-BV1T5NFzrEjh.webp" type="image/webp"><img src="assets/covers-styled/05-BV1T5NFzrEjh.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -286,7 +295,7 @@
           <article class="card" id="v-BV1UziyBcE7b" data-tags="pose moveit ros2 vision">
             <a href="https://www.bilibili.com/video/BV1UziyBcE7b" target="_blank" rel="noopener noreferrer">
               <div class="thumb">
-                <img src="assets/covers-styled/06-BV1UziyBcE7b.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/06-BV1UziyBcE7b.avif" type="image/avif"><source srcset="assets/covers-styled/06-BV1UziyBcE7b.webp" type="image/webp"><img src="assets/covers-styled/06-BV1UziyBcE7b.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -303,7 +312,7 @@
           <article class="card" id="v-BV1unBNBZEmL" data-tags="pose foundationpose realsense ros2 vision">
             <a href="projects/pose-6d.html">
               <div class="thumb">
-                <img src="assets/covers-styled/07-BV1unBNBZEmL.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/07-BV1unBNBZEmL.avif" type="image/avif"><source srcset="assets/covers-styled/07-BV1unBNBZEmL.webp" type="image/webp"><img src="assets/covers-styled/07-BV1unBNBZEmL.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -320,7 +329,7 @@
           <article class="card" id="v-BV1XoBNBAEbE" data-tags="pose orbbec vision">
             <a href="projects/pose-6d.html">
               <div class="thumb">
-                <img src="assets/covers-styled/08-BV1XoBNBAEbE.png" alt="" width="1280" height="720" loading="lazy">
+                <picture><source srcset="assets/covers-styled/08-BV1XoBNBAEbE.avif" type="image/avif"><source srcset="assets/covers-styled/08-BV1XoBNBAEbE.webp" type="image/webp"><img src="assets/covers-styled/08-BV1XoBNBAEbE.png" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
                 <span class="vf" aria-hidden="true"></span>
                 <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l12-7z" fill="#fff"/></svg></span>
               </div>
@@ -495,10 +504,35 @@
       </div>
     </section>
 
-    <section id="lab">
+    <section id="notes">
       <div class="wrap">
         <div class="section-head">
           <span class="sec-no" aria-hidden="true">05</span>
+          <div>
+            <p class="eyebrow" lang="en">Notes</p>
+            <h2 data-en="Technical notes">技术笔记</h2>
+          </div>
+        </div>
+        <p class="lede" data-en="Practical checklists next to the videos. Drafts, for the author to refine. They do not add results the videos did not publish.">写在视频旁边的实用清单。目前是草稿，作者之后会再改。这里不补充视频里没有的结果。</p>
+        <div class="note-list">
+          <a class="note-card" href="notes/6d-pose.html">
+            <p class="draft" data-en="Draft">草稿</p>
+            <h3 data-en="Notes on 6D pose estimation">6D 姿态估计笔记</h3>
+            <p data-en="Camera frames, depth alignment, and what the two pose videos actually name.">相机坐标系、深度对齐，以及两条姿态视频里真正写了什么。</p>
+          </a>
+          <a class="note-card" href="notes/isaac-nav2.html">
+            <p class="draft" data-en="Draft">草稿</p>
+            <h3 data-en="Notes on Nav2 inside Isaac Sim">在 Isaac Sim 里部署 Nav2</h3>
+            <p data-en="TF, costmaps, and the sim-to-real gap. The video itself is one sentence.">TF、代价地图，以及仿真到真机的差距。那条视频的简介只有一句。</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="lab">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="sec-no" aria-hidden="true">06</span>
           <div>
             <p class="eyebrow" lang="en">Lab</p>
             <h2 data-en="A small lab bench">实验室角落</h2>
@@ -543,7 +577,7 @@
     <section id="timeline">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">06</span>
+          <span class="sec-no" aria-hidden="true">07</span>
           <div>
             <p class="eyebrow" lang="en">Timeline</p>
             <h2 data-en="By publish date">按发布日期排列</h2>
@@ -595,7 +629,7 @@
     <section id="contact">
       <div class="wrap">
         <div class="section-head">
-          <span class="sec-no" aria-hidden="true">07</span>
+          <span class="sec-no" aria-hidden="true">08</span>
           <div>
             <p class="eyebrow" lang="en">Contact</p>
             <h2 data-en="Contact">联系</h2>
@@ -633,8 +667,29 @@
   </footer>
   <script src="i18n.js"></script>
   <script src="script.js"></script>
-  <script type="module" src="scene.js"></script>
-  <script type="module" src="graph.js"></script>
-  <script src="extras.js"></script>
+  <script defer src="extras.js"></script>
+  <script>
+    (function () {
+      var node = document.getElementById("bench");
+      var started = false;
+      function load() {
+        if (started) return;
+        started = true;
+        import("./scene.js");
+        import("./graph.js");
+      }
+      if (!node || !("IntersectionObserver" in window)) {
+        load();
+        return;
+      }
+      var watcher = new IntersectionObserver(function (entries) {
+        if (entries.some(function (entry) { return entry.isIntersecting; })) {
+          load();
+          watcher.disconnect();
+        }
+      }, { rootMargin: "240px" });
+      watcher.observe(node);
+    })();
+  </script>
 </body>
 </html>

@@ -37,10 +37,17 @@
       <p><time datetime="2026-09-08">2026.09.08</time> · BV1NobG69E3H</p>
       <div class="project-grid">
         <figure class="demo-frame">
-          <img src="../assets/demos/dual-arm.gif" width="480" height="270" alt="双臂上下料视频封面的缓慢推移" data-en-alt="Slow pan across the cover of the dual-arm factory video">
+          <video width="480" height="270" autoplay muted loop playsinline poster="../assets/covers-styled/01-BV1NobG69E3H.webp">
+            <source src="../assets/demos/dual-arm.webm" type="video/webm">
+            <source src="../assets/demos/dual-arm.mp4" type="video/mp4">
+          </video>
         </figure>
         <figure class="still-frame">
-          <img src="../assets/covers-styled/01-BV1NobG69E3H.png" width="1280" height="720" alt="视频封面" data-en-alt="Video cover">
+          <picture>
+            <source srcset="../assets/covers-styled/01-BV1NobG69E3H.avif" type="image/avif">
+            <source srcset="../assets/covers-styled/01-BV1NobG69E3H.webp" type="image/webp">
+            <img src="../assets/covers-styled/01-BV1NobG69E3H.png" width="1280" height="720" alt="视频封面" data-en-alt="Video cover" loading="lazy" decoding="async">
+          </picture>
         </figure>
       </div>
       <p class="note" data-en="The loop is a slow pan of this video's cover. The full recording is on Bilibili. The post did not include a written description.">循环画面是这条视频封面的缓慢推移。完整录像在 Bilibili。这条帖子没有文字简介。</p>

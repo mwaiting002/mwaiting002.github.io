@@ -109,7 +109,7 @@ if (canvas && host) {
       const pos = new THREE.Vector3().fromArray(seeds[item.id]);
       const group = new THREE.Group();
       group.position.copy(pos);
-      const radius = item.id === "ros" || item.id === "pose" ? 0.28 : 0.2;
+      const radius = item.id === "ros" || item.id === "pose" ? 0.4 : 0.3;
       const sphere = new THREE.Mesh(
         new THREE.SphereGeometry(radius, mobile ? 16 : 28, mobile ? 12 : 20),
         new THREE.MeshStandardMaterial({
@@ -163,9 +163,10 @@ if (canvas && host) {
     ids.forEach(function (id) { byId[id].group.position.copy(byId[id].pos); });
     const fitBox = new THREE.Box3();
     ids.forEach(function (id) { fitBox.expandByPoint(byId[id].pos); });
+    fitBox.expandByScalar(0.85);
     const fitCenter = fitBox.getCenter(new THREE.Vector3());
     const fitSize = fitBox.getSize(new THREE.Vector3());
-    const fitDist = Math.max(fitSize.x, fitSize.y, fitSize.z) * 1.45 + 2.4;
+    const fitDist = Math.max(fitSize.x, fitSize.y, fitSize.z) * 1.15 + 1.8;
     camera.position.set(fitCenter.x + fitDist * 0.12, fitCenter.y + fitDist * 0.32, fitCenter.z + fitDist);
     controls.target.copy(fitCenter);
 
@@ -178,22 +179,23 @@ if (canvas && host) {
 
     function makeLabel(text, color) {
       const board = document.createElement("canvas");
-      board.width = 384;
-      board.height = 80;
+      board.width = 640;
+      board.height = 128;
       const ctx = board.getContext("2d");
-      ctx.clearRect(0, 0, 384, 80);
-      ctx.font = "600 34px sans-serif";
-      ctx.fillStyle = color;
+      ctx.clearRect(0, 0, 640, 128);
+      ctx.font = "700 54px sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.shadowColor = color;
-      ctx.shadowBlur = 12;
-      ctx.fillText(text, 192, 40);
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = "rgba(4, 8, 16, 0.92)";
+      ctx.strokeText(text, 320, 66);
+      ctx.fillStyle = "#f5fbff";
+      ctx.fillText(text, 320, 66);
       const tex = new THREE.CanvasTexture(board);
       tex.colorSpace = THREE.SRGBColorSpace;
       const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
-      sprite.scale.set(1.35, 0.3, 1);
-      sprite.position.y = 0.58;
+      sprite.scale.set(mobile ? 2.8 : 2.35, mobile ? 0.56 : 0.47, 1);
+      sprite.position.y = 0.72;
       return sprite;
     }
     function hexCss(hex) {

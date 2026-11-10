@@ -45,7 +45,7 @@ if (!canvas || !stage) {
     scene.fog = new THREE.FogExp2(0x05070e, 0.075);
 
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
-    camera.position.set(4.4, 2.5, 4.6);
+    camera.position.set(2.15, 1.35, 2.35);
 
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
@@ -53,21 +53,21 @@ if (!canvas || !stage) {
     controls.autoRotate = !reduce;
     controls.autoRotateSpeed = 0.65;
     controls.enablePan = false;
-    controls.minDistance = 3.2;
-    controls.maxDistance = 9;
-    controls.minPolarAngle = 0.35;
-    controls.maxPolarAngle = Math.PI * 0.49;
-    controls.target.set(0, 0.55, 0);
+    controls.minDistance = 1.6;
+    controls.maxDistance = 5.2;
+    controls.minPolarAngle = 0.45;
+    controls.maxPolarAngle = Math.PI * 0.48;
+    controls.target.set(0, 0.72, 0.05);
 
     scene.add(new THREE.AmbientLight(0x8fb4c8, 0.35));
     scene.add(new THREE.HemisphereLight(0x9ad7ff, 0x070910, 0.45));
     const key = new THREE.DirectionalLight(0xf4f7ff, 1.35);
     key.position.set(4, 7, 3);
     scene.add(key);
-    const cyan = new THREE.PointLight(0x39e7ff, 18, 9, 2);
+    const cyan = new THREE.PointLight(0x39e7ff, 28, 8, 2);
     cyan.position.set(-1.8, 1.8, 1.2);
     scene.add(cyan);
-    const magenta = new THREE.PointLight(0xff4d88, 12, 8, 2);
+    const magenta = new THREE.PointLight(0xff4d88, 20, 7, 2);
     magenta.position.set(1.8, 1.4, -1.1);
     scene.add(magenta);
 
@@ -81,7 +81,7 @@ if (!canvas || !stage) {
     const grid = new THREE.GridHelper(10, 28, 0x2ee7ff, 0x14344a);
     grid.position.y = 0;
     grid.material.transparent = true;
-    grid.material.opacity = 0.55;
+    grid.material.opacity = 0.85;
     scene.add(grid);
     const ring = new THREE.Mesh(
       new THREE.RingGeometry(1.55, 1.62, 64),
@@ -101,7 +101,7 @@ if (!canvas || !stage) {
       });
     }
     const shellMat = metal(0xb7d7e4, 0x08303a, 0.55);
-    const jointMat = metal(0xd7fbff, 0x1ad4ff, 1.15);
+    const jointMat = metal(0xd7fbff, 0x39e7ff, 2.1);
     const fingerMat = metal(0xffd7a8, 0xff8a3d, 0.7);
     const tableMat = metal(0x1a2436, 0x0a2030, 0.25);
 
@@ -120,8 +120,9 @@ if (!canvas || !stage) {
       const shoulder = new THREE.Group();
       shoulder.position.y = 0.16;
       root.add(shoulder);
-      const upperLen = 0.46;
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.07, upperLen, 24), shellMat);
+      const seg = mobile ? 12 : 24;
+      const upperLen = 0.58;
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, upperLen, seg), shellMat);
       upper.position.y = upperLen / 2;
       shoulder.add(upper);
       const elbowBall = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 16), jointMat);
@@ -130,8 +131,8 @@ if (!canvas || !stage) {
       const elbow = new THREE.Group();
       elbow.position.y = upperLen;
       shoulder.add(elbow);
-      const foreLen = 0.38;
-      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.055, foreLen, 24), shellMat);
+      const foreLen = 0.48;
+      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.068, foreLen, seg), shellMat);
       fore.position.y = foreLen / 2;
       elbow.add(fore);
       const wrist = new THREE.Group();
@@ -153,8 +154,10 @@ if (!canvas || !stage) {
       return { root: root, shoulder: shoulder, elbow: elbow };
     }
 
-    const left = arm(-0.62, 1);
-    const right = arm(0.62, -1);
+    const left = arm(-0.72, 1);
+    const right = arm(0.72, -1);
+    left.root.scale.setScalar(1.28);
+    right.root.scale.setScalar(1.28);
     scene.add(left.root, right.root);
 
     const table = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.08, 1.35), tableMat);
@@ -187,7 +190,7 @@ if (!canvas || !stage) {
       new THREE.MeshBasicMaterial({
         color: 0x7af0ff,
         transparent: true,
-        opacity: 0.28,
+        opacity: 0.42,
         side: THREE.DoubleSide,
         depthWrite: false,
         blending: THREE.AdditiveBlending

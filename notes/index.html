@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-en="Notes · muxintian">技术笔记 · muxintian</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <a class="skip" href="#main" data-en="Skip to content">跳到主要内容</a>
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="../index.html">muxintian</a>
+      <nav id="site-nav" aria-label="页内导航" data-en-aria="On this page">
+        <a href="../index.html#notes" data-en="Notes">笔记</a>
+        <a href="../index.html#work" data-en="Videos">作品</a>
+        <a href="../index.html#contact" data-en="Contact">联系</a>
+      </nav>
+      <div class="tools">
+        <button class="tool-btn" id="lang-toggle" type="button">EN</button>
+        <button class="tool-btn" id="theme-toggle" type="button" aria-label="切换日间">☀</button>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">打开菜单</span><span class="burger" aria-hidden="true"></span></button>
+    </div>
+  </header>
+  <main id="main" class="project">
+    <div class="wrap">
+      <a class="back" href="../index.html" data-en="← Home">← 首页</a>
+      <h1 data-en="Technical notes">技术笔记</h1>
+      <p class="lede" data-en="Draft checklists. They do not add results the videos did not publish.">草稿清单。不补充视频里没有公布的结果。</p>
+      <div class="note-list">
+        <a class="note-card" href="6d-pose.html">
+          <p class="draft" data-en="Draft">草稿</p>
+          <h2 data-en="Notes on 6D pose estimation">6D 姿态估计笔记</h2>
+          <p data-en="Camera frames, depth alignment, and what the two pose videos actually name.">相机坐标系、深度对齐，以及两条姿态视频里真正写了什么。</p>
+        </a>
+        <a class="note-card" href="isaac-nav2.html">
+          <p class="draft" data-en="Draft">草稿</p>
+          <h2 data-en="Notes on Nav2 inside Isaac Sim">在 Isaac Sim 里部署 Nav2</h2>
+          <p data-en="TF, costmaps, and the sim-to-real gap. The video itself is one sentence.">TF、代价地图，以及仿真到真机的差距。那条视频的简介只有一句。</p>
+        </a>
+      </div>
+    </div>
+  </main>
+  <script src="../i18n.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
